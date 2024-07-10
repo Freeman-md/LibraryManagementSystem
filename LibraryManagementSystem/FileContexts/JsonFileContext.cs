@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace LibraryManagementSystem.FileContexts
 {
-	public interface JsonFileContext<T> : IFileContext<T>
+	public class JsonFileContext<T> : IFileContext<T>
 	{
 		public List<T> ReadFromFile(string filePath) {
 
