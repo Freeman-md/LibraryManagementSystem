@@ -25,4 +25,12 @@
   <ItemGroup>
     <ProjectReference Include="..\LibraryManagementSystem\LibraryManagementSystem.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="UnitTests\" />
+    <None Remove="UnitTests\Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UnitTests\" />
+    <Folder Include="UnitTests\Services\" />
+  </ItemGroup>
 </Project>
