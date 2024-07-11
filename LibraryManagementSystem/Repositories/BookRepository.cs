@@ -27,7 +27,13 @@ namespace LibraryManagementSystem.Repositories
 
         public Book AddBook(Book book)
         {
-            throw new NotImplementedException();
+            List<Book> books = GetAllBooks();
+
+            books.Add(book);
+
+            SaveBooks(books);
+
+            return book;
         }
 
         public Book UpdateBook(Book book)
