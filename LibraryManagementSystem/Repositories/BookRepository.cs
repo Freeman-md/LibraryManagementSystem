@@ -14,6 +14,36 @@ namespace LibraryManagementSystem.Repositories
             _fileContext = fileContext;
             _filePath = filePath;
         }
+
+        public List<Book> GetAllBooks()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Book GetBookById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Book AddBook(Book book)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Book UpdateBook(Book book)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Book DeleteBook(Book book)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveBooks(List<Book> books)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

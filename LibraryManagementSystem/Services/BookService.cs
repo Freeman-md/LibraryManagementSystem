@@ -19,7 +19,7 @@ namespace LibraryManagementSystem.Services
 			throw new NotImplementedException();
 		}
 
-		public List<Book> GetBooks()
+		public List<Book> GetAllBooks()
 		{
             // TODO: get books from repository
 
