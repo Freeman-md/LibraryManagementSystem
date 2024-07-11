@@ -7,11 +7,12 @@ namespace LibraryManagementSystem.Repositories
 	public class BookRepository
 	{
 		private readonly IFileContext<Book> _fileContext;
-		private readonly string _filePath = "books.json";
+		private readonly string _filePath;
 
-        public BookRepository(IFileContext<Book> fileContext)
+        public BookRepository(IFileContext<Book> fileContext, string filePath = "books.json")
         {
             _fileContext = fileContext;
+            _filePath = filePath;
         }
     }
 }
