@@ -17,7 +17,7 @@ namespace LibraryManagementSystem.Repositories
 
         public List<Book> GetAllBooks()
         {
-            throw new NotImplementedException();
+            return _fileContext.ReadFromFile(_filePath);
         }
 
         public Book GetBookById(Guid id)
