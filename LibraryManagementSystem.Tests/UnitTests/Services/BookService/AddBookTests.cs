@@ -8,15 +8,16 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services.BookService
     {
         private readonly LibraryManagementSystem.Services.BookService _bookService;
 
-        public AddBookTests(BookServiceFixture fixture) {
+        public AddBookTests(BookServiceFixture fixture)
+        {
             _bookService = fixture.BookService;
         }
 
         private static Book CreateBook() => new Book("New Title", "New Author", "New Genre", "090-389-0893", DateTime.Now);
 
         [Fact]
-		public void AddBook_WithNoArguments_ShouldAddBookWithDefaultIDAndPublishDateOnly()
-		{
+        public void AddBook_WithNoArguments_ShouldAddBookWithDefaultIDAndPublishDateOnly()
+        {
             Book book = new Book();
 
             _bookService.AddBook(book);

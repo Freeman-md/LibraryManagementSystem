@@ -30,6 +30,8 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
         [Fact]
         public void GetAllBooks_WhenNoBooks_ShouldReturnEmptyList()
         {
+            _bookRepository.SaveBooks(new List<Book>());
+
             List<Book> books = _bookRepository.GetAllBooks();
 
             Assert.Empty(books);

@@ -48,7 +48,7 @@ namespace LibraryManagementSystem.Repositories
 
         public void SaveBooks(List<Book> books)
         {
-            throw new NotImplementedException();
+            _fileContext.WriteToFile(_filePath, books);
         }
     }
 }
