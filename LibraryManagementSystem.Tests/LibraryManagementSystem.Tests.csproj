@@ -28,14 +28,13 @@
   <ItemGroup>
     <None Remove="UnitTests\" />
     <None Remove="UnitTests\Services\" />
-    <None Remove="UnitTests\Services\BookService\" />
     <None Remove="TestHelpers\" />
     <None Remove="UnitTests\Repositories\" />
+    <None Remove="UnitTests\Services\BookServiceTests.AddBook" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UnitTests\" />
     <Folder Include="UnitTests\Services\" />
-    <Folder Include="UnitTests\Services\BookService\" />
     <Folder Include="TestHelpers\" />
     <Folder Include="UnitTests\Repositories\" />
   </ItemGroup>

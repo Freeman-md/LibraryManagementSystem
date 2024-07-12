@@ -2,25 +2,10 @@
 using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Tests.TestHelpers;
 
-namespace LibraryManagementSystem.Tests.UnitTests.Services.BookService
+namespace LibraryManagementSystem.Tests.UnitTests.Services
 {
-    public class AddBookTests : IClassFixture<BookServiceFixture>
+    public partial class BookServiceTests : IClassFixture<BookServiceFixture>
     {
-        private readonly LibraryManagementSystem.Services.BookService _bookService;
-
-        public AddBookTests(BookServiceFixture fixture)
-        {
-            _bookService = fixture.BookService;
-        }
-
-        private static Book CreateBook(
-            string title = "Original Title",
-            string author = "Original Author",
-            string genre = "Original Genre",
-            string isbn = "090-93080-3893",
-            DateTime publishDate = default(DateTime),
-            bool isAvailable = true) => new Book(title, author, genre, isbn, publishDate, isAvailable);
-
         [Fact]
         public void AddBook_WithNullItem_ShouldThrowArgumentNullException()
         {
