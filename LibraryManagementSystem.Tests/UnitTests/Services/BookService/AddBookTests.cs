@@ -70,8 +70,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services.BookService
         {
             Book book = CreateBook();
 
-            _bookService.AddBook(book);
-            Book addedBook = _bookService.GetBookById(book.Id);
+            Book addedBook = _bookService.AddBook(book);
 
             Assert.NotNull(addedBook);
             Assert.Equal(book.Id, addedBook.Id);

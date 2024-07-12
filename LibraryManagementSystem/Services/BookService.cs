@@ -14,9 +14,11 @@ namespace LibraryManagementSystem.Services
 		}
 
 		public Book AddBook(Book book) {
-			// TODO: add book
+            ValidateBook(book);
 
-			throw new NotImplementedException();
+            _bookRepository.AddBook(book);
+
+            return book;
 		}
 
 		public List<Book> GetAllBooks()
@@ -30,6 +32,35 @@ namespace LibraryManagementSystem.Services
 		{
 			throw new NotImplementedException();
 		}
+
+		private void ValidateBook(Book book)
+        {
+            if (book == null)
+            {
+                throw new ArgumentNullException(nameof(book));
+            }
+
+            if (string.IsNullOrWhiteSpace(book.Title))
+            {
+                throw new ArgumentException("Book title cannot be empty.", nameof(book.Title));
+            }
+
+            if (string.IsNullOrWhiteSpace(book.Author))
+            {
+                throw new ArgumentException("Book author cannot be empty.", nameof(book.Author));
+            }
+
+            if (string.IsNullOrWhiteSpace(book.Genre))
+            {
+                throw new ArgumentException("Book genre cannot be empty.", nameof(book.Genre));
+            }
+
+            if (string.IsNullOrWhiteSpace(book.ISBN))
+            {
+                throw new ArgumentException("Book ISBN cannot be empty.", nameof(book.ISBN));
+            }
+
+        }
 
 	}
 }
