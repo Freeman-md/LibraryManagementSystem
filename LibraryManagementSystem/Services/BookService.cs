@@ -28,9 +28,9 @@ namespace LibraryManagementSystem.Services
             throw new NotImplementedException();
         }
 
-		public Book GetBookById(Guid id)
+		public Book? GetBookById(Guid id)
 		{
-			throw new NotImplementedException();
+            return _bookRepository.GetBookById(id);
 		}
 
 		private void ValidateBook(Book book)
