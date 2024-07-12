@@ -41,15 +41,17 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
         public void GetBook_ByExistingId_ShouldReturnBook()
         {
             Book book = CreateBook();
+            _bookRepository.AddBook(book);
 
-            Book foundBook = _bookRepository.GetBookById(book.Id);
+            Book? foundBook = _bookRepository.GetBookById(book.Id);
 
             Assert.NotNull(foundBook);
             Assert.Equal(book.Id, foundBook.Id);
+            Assert.Equal(book.Title, foundBook.Title);
         }
 
         [Fact]
-        public void GetBook_ByUnavailableId_ShouldReturnBook()
+        public void GetBook_ByUnavailableId_ShouldReturnNull()
         {
             Book foundBook = _bookRepository.GetBookById(Guid.NewGuid());
 

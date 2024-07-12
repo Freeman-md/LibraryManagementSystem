@@ -20,9 +20,11 @@ namespace LibraryManagementSystem.Repositories
             return _fileContext.ReadFromFile(_filePath);
         }
 
-        public Book GetBookById(Guid id)
+        public Book? GetBookById(Guid id)
         {
-            throw new NotImplementedException();
+            List<Book> books = GetAllBooks();
+
+            return books.FirstOrDefault((book) => book.Id == id);
         }
 
         public Book AddBook(Book book)
@@ -43,7 +45,13 @@ namespace LibraryManagementSystem.Repositories
 
         public Book DeleteBook(Book book)
         {
-            throw new NotImplementedException();
+            List<Book> books = GetAllBooks();
+
+            books.Remove(book);
+
+            SaveBooks(books);
+
+            return book;
         }
 
         public void SaveBooks(List<Book> books)
