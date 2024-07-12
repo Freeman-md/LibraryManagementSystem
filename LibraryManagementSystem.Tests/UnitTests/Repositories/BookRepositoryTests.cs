@@ -51,9 +51,12 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
         }
 
         [Fact]
-        public void GetBook_ByUnavailableId_ShouldReturnNull()
+        public void GetBook_WhenBookDoesNotExist_ShouldReturnNull()
         {
-            Book? foundBook = _bookRepository.GetBookById(Guid.NewGuid());
+            // creates book but doesn't save it - AddBook saves to file. CreateBook is a private method here that instantiates a Book
+            Book book = CreateBook();
+
+            Book? foundBook = _bookRepository.GetBookById(book.Id);
 
             Assert.Null(foundBook);
         }
