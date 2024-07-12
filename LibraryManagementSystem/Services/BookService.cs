@@ -23,9 +23,7 @@ namespace LibraryManagementSystem.Services
 
 		public List<Book> GetAllBooks()
 		{
-            // TODO: get books from repository
-
-            throw new NotImplementedException();
+            return _bookRepository.GetAllBooks();
         }
 
 		public Book? GetBookById(Guid id)
