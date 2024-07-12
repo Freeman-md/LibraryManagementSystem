@@ -38,9 +38,17 @@ namespace LibraryManagementSystem.Repositories
             return book;
         }
 
-        public Book UpdateBook(Book book)
+        public Book UpdateBook(Book updatedBook)
         {
-            throw new NotImplementedException();
+            List<Book> books = GetAllBooks();
+            Book existingBook = GetBookById(updatedBook.Id)!;
+
+            books.Remove(existingBook);
+            books.Add(updatedBook);
+
+            SaveBooks(books);
+
+            return updatedBook;
         }
 
         public Book DeleteBook(Book book)

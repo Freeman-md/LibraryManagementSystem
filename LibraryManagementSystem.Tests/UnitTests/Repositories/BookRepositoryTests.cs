@@ -13,7 +13,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
             _bookRepository = fixture.BookRepository;
         }
 
-        private static Book CreateBook() => new Book("New Title", "New Author", "New Genre", "090-389-0893", DateTime.Now);
+        private static Book CreateBook() => new Book("Original Title", "Original Author", "Genre", "090-389-0893", DateTime.Now);
 
         [Fact]
         public void GetAllBooks_ShouldReturnAllBooks()
@@ -79,10 +79,11 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
             string updatedAuthor = "Updated Author";
             book.Title = updatedTitle;
             book.Author = updatedAuthor;
-            Book updatedBook = _bookRepository.UpdateBook(book);
 
-            Assert.NotEqual(book.Title, updatedBook.Title);
-            Assert.NotEqual(book.Author, updatedBook.Author);
+            _bookRepository.UpdateBook(book);
+            Book? updatedBook = _bookRepository.GetBookById(book.Id);
+
+            Assert.NotNull(updatedBook);
             Assert.Equal(updatedTitle, updatedBook.Title);
             Assert.Equal(updatedAuthor, updatedBook.Author);
         }
