@@ -53,7 +53,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
         [Fact]
         public void GetBook_ByUnavailableId_ShouldReturnNull()
         {
-            Book foundBook = _bookRepository.GetBookById(Guid.NewGuid());
+            Book? foundBook = _bookRepository.GetBookById(Guid.NewGuid());
 
             Assert.Null(foundBook);
         }

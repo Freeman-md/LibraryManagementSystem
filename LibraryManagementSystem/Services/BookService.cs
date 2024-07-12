@@ -26,6 +26,11 @@ namespace LibraryManagementSystem.Services
             throw new NotImplementedException();
         }
 
+		public Book GetBookById(Guid id)
+		{
+			throw new NotImplementedException();
+		}
+
 	}
 }
 

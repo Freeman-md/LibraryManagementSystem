@@ -13,34 +13,65 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services.BookService
             _bookService = fixture.BookService;
         }
 
-        private static Book CreateBook() => new Book("New Title", "New Author", "New Genre", "090-389-0893", DateTime.Now);
+        private static Book CreateBook(
+            string title = "Original Title",
+            string author = "Original Author",
+            string genre = "Original Genre",
+            string isbn = "090-93080-3893",
+            DateTime publishDate = default(DateTime),
+            bool isAvailable = true) => new Book(title, author, genre, isbn, publishDate, isAvailable);
 
         [Fact]
-        public void AddBook_WithNoArguments_ShouldAddBookWithDefaultIDAndPublishDateOnly()
+        public void AddBook_WithNullItem_ShouldThrowArgumentNullException()
         {
-            Book book = new Book();
+            Book? nullBook = null;
 
-            _bookService.AddBook(book);
-            List<Book> allBooks = _bookService.GetAllBooks();
-            Book addedBook = allBooks.FirstOrDefault(iterable => iterable.Id == book.Id);
-
-            Assert.NotNull(addedBook);
-            Assert.Equal(book.Id, addedBook.Id);
-            Assert.Equal(DateTime.Now.Date, addedBook.PublishDate.Date);
-            Assert.True(addedBook.IsAvailable);
-            Assert.Null(addedBook.Author);
-            Assert.Null(addedBook.Genre);
-            Assert.Null(addedBook.ISBN);
+            Assert.Throws<ArgumentNullException>(() => _bookService.AddBook(nullBook));
         }
 
         [Fact]
-        public void AddBook_WithValidBook_ShouldAddItemSuccessfully()
+        public void AddBook_WithEmptyTitle_ShouldThrowArgumentException()
+        {
+            Book invalidBook = CreateBook(title: "");
+
+            ArgumentException ex = Assert.Throws<ArgumentException>(() => _bookService.AddBook(invalidBook));
+            Assert.Equal("Title", ex.ParamName);
+        }
+
+        [Fact]
+        public void AddBook_WithEmptyAuthor_ShouldThrowArgumentException()
+        {
+            Book invalidBook = CreateBook(author: "");
+
+            ArgumentException ex = Assert.Throws<ArgumentException>(() => _bookService.AddBook(invalidBook));
+            Assert.Equal("Author", ex.ParamName);
+        }
+
+        [Fact]
+        public void AddBook_WithEmptyGenre_ShouldThrowArgumentException()
+        {
+            Book invalidBook = CreateBook(genre: "");
+
+            ArgumentException ex = Assert.Throws<ArgumentException>(() => _bookService.AddBook(invalidBook));
+            Assert.Equal("Genre", ex.ParamName);
+        }
+
+        [Fact]
+        public void AddBook_WithEmptyISBN_ShouldThrowArgumentException()
+        {
+            Book invalidBook = CreateBook(isbn: "");
+
+            ArgumentException ex = Assert.Throws<ArgumentException>(() => _bookService.AddBook(invalidBook));
+            Assert.Equal("ISBN", ex.ParamName);
+        }
+
+        [Fact]
+        public void AddBook_WithAllDetails_ShouldAddItemSuccessfully()
         {
             Book book = CreateBook();
 
             _bookService.AddBook(book);
-            List<Book> allBooks = _bookService.GetAllBooks();
-            Book addedBook = allBooks.FirstOrDefault(iterable => iterable.Id == book.Id);
+            Book addedBook = _bookService.GetBookById(book.Id);
 
             Assert.NotNull(addedBook);
             Assert.Equal(book.Id, addedBook.Id);
