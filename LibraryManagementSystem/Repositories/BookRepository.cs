@@ -42,8 +42,6 @@ namespace LibraryManagementSystem.Repositories
 
         public Book UpdateBook(Book updatedBook, Guid bookId)
         {
-            if (updatedBook == null) throw new ArgumentNullException(nameof(updatedBook));
-
             List<Book> books = GetAllBooks();
             Book? existingBook = GetBookById(bookId);
 

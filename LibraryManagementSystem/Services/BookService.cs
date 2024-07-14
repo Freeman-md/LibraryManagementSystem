@@ -36,7 +36,12 @@ namespace LibraryManagementSystem.Services
             return _bookRepository.GetBookById(id);
 		}
 
-		private void ValidateBook(Book book)
+        public void UpdateBook(Book updatedBook, Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ValidateBook(Book book)
         {
             if (book == null)
             {
