@@ -29,6 +29,8 @@ namespace LibraryManagementSystem.Repositories
 
         public Book AddBook(Book book)
         {
+            if (book == null) throw new ArgumentNullException(nameof(book));
+
             List<Book> books = GetAllBooks();
 
             books.Add(book);
@@ -38,10 +40,14 @@ namespace LibraryManagementSystem.Repositories
             return book;
         }
 
-        public Book UpdateBook(Book updatedBook)
+        public Book UpdateBook(Book updatedBook, Guid bookId)
         {
+            if (updatedBook == null) throw new ArgumentNullException(nameof(updatedBook));
+
             List<Book> books = GetAllBooks();
-            Book existingBook = GetBookById(updatedBook.Id)!;
+            Book? existingBook = GetBookById(bookId);
+
+            if (existingBook == null) throw new ArgumentException("Book does not exist.", nameof(updatedBook));
 
             books.Remove(existingBook);
             books.Add(updatedBook);
@@ -51,15 +57,15 @@ namespace LibraryManagementSystem.Repositories
             return updatedBook;
         }
 
-        public Book DeleteBook(Book book)
+        public void DeleteBook(Guid bookId)
         {
-            List<Book> books = GetAllBooks();
+            var books = GetAllBooks();
+            var bookToDelete = GetBookById(bookId);
 
-            books.Remove(book);
+            if (bookToDelete == null) throw new ArgumentException("Book does not exist.", nameof(bookId));
 
+            books.Remove(bookToDelete);
             SaveBooks(books);
-
-            return book;
         }
 
         public void SaveBooks(List<Book> books)
