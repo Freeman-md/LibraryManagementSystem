@@ -11,7 +11,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
         {
             Book? nullBook = null;
 
-            Assert.Throws<ArgumentNullException>(() => _bookService.AddBook(nullBook));
+            Assert.Throws<ArgumentNullException>(() => _bookService.AddBook(nullBook!));
         }
 
         [Fact]

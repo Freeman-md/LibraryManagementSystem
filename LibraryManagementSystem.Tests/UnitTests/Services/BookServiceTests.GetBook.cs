@@ -11,7 +11,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
         {
             Book book = _bookService.AddBook(CreateBook());
 
-            Book foundBook = _bookService.GetBookById(book.Id);
+            Book? foundBook = _bookService.GetBookById(book.Id);
 
             Assert.NotNull(foundBook);
             Assert.Equal(book.Title, foundBook.Title);
@@ -22,7 +22,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
         {
             Book book = CreateBook();
 
-            Book foundBook = _bookService.GetBookById(book.Id);
+            Book? foundBook = _bookService.GetBookById(book.Id);
 
             Assert.Null(foundBook);
         }

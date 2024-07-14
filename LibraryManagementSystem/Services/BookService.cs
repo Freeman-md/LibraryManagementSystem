@@ -21,7 +21,12 @@ namespace LibraryManagementSystem.Services
             return book;
 		}
 
-		public List<Book> GetAllBooks()
+        public void DeleteBook(Guid bookId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Book> GetAllBooks()
 		{
             return _bookRepository.GetAllBooks();
         }

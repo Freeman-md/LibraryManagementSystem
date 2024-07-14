@@ -33,7 +33,8 @@ namespace LibraryManagementSystem.FileContexts
                 Converters = { new JsonStringEnumConverter() }
             };
 
-            return JsonSerializer.Deserialize<List<T>>(jsonData, options);
+            var items = JsonSerializer.Deserialize<List<T>>(jsonData, options);
+            return items ?? new List<T>();
         }
 
         public void WriteToFile(string filePath, List<T> items)

@@ -83,7 +83,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
             book.Title = updatedTitle;
             book.Author = updatedAuthor;
 
-            _bookRepository.UpdateBook(book);
+            _bookRepository.UpdateBook(book, book.Id);
             Book? updatedBook = _bookRepository.GetBookById(book.Id);
 
             Assert.NotNull(updatedBook);
@@ -97,7 +97,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
             Book book = CreateBook();
             _bookRepository.AddBook(book);
 
-            _bookRepository.DeleteBook(book);
+            _bookRepository.DeleteBook(book.Id);
 
             List<Book> books = _bookRepository.GetAllBooks();
             Assert.DoesNotContain(book, books);
