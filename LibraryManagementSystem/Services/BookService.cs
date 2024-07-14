@@ -14,6 +14,8 @@ namespace LibraryManagementSystem.Services
 		}
 
 		public Book AddBook(Book book) {
+            if (book == null) throw new ArgumentNullException(nameof(book));
+
             ValidateBook(book);
 
             _bookRepository.AddBook(book);

@@ -29,8 +29,6 @@ namespace LibraryManagementSystem.Repositories
 
         public Book AddBook(Book book)
         {
-            if (book == null) throw new ArgumentNullException(nameof(book));
-
             List<Book> books = GetAllBooks();
 
             books.Add(book);
