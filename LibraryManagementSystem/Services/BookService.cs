@@ -23,7 +23,7 @@ namespace LibraryManagementSystem.Services
 
         public void DeleteBook(Guid bookId)
         {
-            throw new NotImplementedException();
+            _bookRepository.DeleteBook(bookId);
         }
 
         public List<Book> GetAllBooks()
