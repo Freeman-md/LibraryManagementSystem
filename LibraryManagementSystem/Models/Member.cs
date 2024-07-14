@@ -26,6 +26,20 @@ namespace LibraryManagementSystem.Models
             MembershipDate = membershipDate;
             Address = address;
 		}
-	}
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            var member = (Member)obj;
+            return Id == member.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+    }
 }
 
