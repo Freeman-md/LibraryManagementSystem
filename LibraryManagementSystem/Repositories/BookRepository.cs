@@ -43,12 +43,16 @@ namespace LibraryManagementSystem.Repositories
         public Book UpdateBook(Book updatedBook, Guid bookId)
         {
             List<Book> books = GetAllBooks();
-            Book? existingBook = GetBookById(bookId);
+            Book? existingBook = books.FirstOrDefault(book => book.Id == bookId);
 
             if (existingBook == null) throw new ArgumentException("Book does not exist.", nameof(updatedBook));
 
-            books.Remove(existingBook);
-            books.Add(updatedBook);
+            existingBook.Title = updatedBook.Title;
+            existingBook.Author = updatedBook.Author;
+            existingBook.Genre = updatedBook.Genre;
+            existingBook.ISBN = updatedBook.ISBN;
+            existingBook.PublishDate = updatedBook.PublishDate;
+            existingBook.IsAvailable = updatedBook.IsAvailable;
 
             SaveBooks(books);
 

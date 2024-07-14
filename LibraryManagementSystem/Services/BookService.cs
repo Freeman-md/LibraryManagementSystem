@@ -38,7 +38,9 @@ namespace LibraryManagementSystem.Services
 
         public void UpdateBook(Book updatedBook, Guid id)
         {
-            throw new NotImplementedException();
+            if (updatedBook == null) throw new ArgumentNullException(nameof(updatedBook));
+
+            _bookRepository.UpdateBook(updatedBook, id);
         }
 
         private void ValidateBook(Book book)
