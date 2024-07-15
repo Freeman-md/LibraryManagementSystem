@@ -4,23 +4,43 @@ using LibraryManagementSystem.Models;
 
 namespace LibraryManagementSystem.Repositories
 {
-	public class MemberRepository : BaseRepository
+	public class MemberRepository : BaseRepository<Member>
 	{
-        public MemberRepository(IFileContext<Book> fileContext, string filePath = "members.json") : base(fileContext, filePath) { }
+        public MemberRepository(IFileContext<Member> fileContext, string filePath = "members.json") : base(fileContext, filePath) { }
 
         public List<Member> GetAllMembers()
         {
-            throw new NotImplementedException();
+            return _fileContext.ReadFromFile(_filePath);
         }
 
-        public Member GetMemberById(Guid id)
+        public Member? GetMember(Guid id)
         {
-            throw new NotImplementedException();
+            List<Member> members = GetAllMembers();
+
+            return members.FirstOrDefault<Member>((member) => member.Id == id);
+        }
+
+        public Member? GetMember(string email)
+        {
+            List<Member> members = GetAllMembers();
+
+            return members.FirstOrDefault(member => member.Email.Equals(email, StringComparison.OrdinalIgnoreCase));;
         }
 
         public Member CreateMember(Member member)
         {
-            throw new NotImplementedException();
+            List<Member> members = GetAllMembers();
+
+            if (GetMember(member.Email) != null)
+            {
+                throw new InvalidOperationException($"Member with email: {member.Email} already exists.");
+            }
+
+            members.Add(member);
+
+            SaveMembers(members);
+
+            return member;
         }
 
         public Member UpdateMember(Member member, Guid id)
@@ -34,7 +54,7 @@ namespace LibraryManagementSystem.Repositories
 
         public void SaveMembers(List<Member> members)
         {
-            throw new NotImplementedException();
+            _fileContext.WriteToFile(_filePath, members);
         }
     }
 

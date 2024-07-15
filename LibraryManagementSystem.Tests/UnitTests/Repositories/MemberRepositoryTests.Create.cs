@@ -8,10 +8,11 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
 		[Fact]
 		public void CreateMember_ShouldCreateMemberSuccessfully()
 		{
-			Member member = CreateMember();
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member member = CreateMember(email: randomEmail);
 			_memberRepository.CreateMember(member);
 
-			Member createdMember = _memberRepository.GetMemberById(member.Id);
+			Member? createdMember = _memberRepository.GetMember(member.Id);
 
 			Assert.NotNull(createdMember);
 			Assert.Equal(createdMember.Name, member.Name);
@@ -19,14 +20,12 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
         }
 
 		[Fact]
-		public void CreateMember_WithDuplicateId_ShouldThrowInvalidOperationException()
+		public void CreateMember_WithSameEmail_ShouldThrowInvalidOperationException()
 		{
-			Guid id = Guid.NewGuid();
-			Member member1 = CreateMember(id);
-            Member member2 = CreateMember(id);
-			_memberRepository.CreateMember(member1);
+			Member member = CreateMember();
+			_memberRepository.CreateMember(member);
 
-			Assert.Throws<InvalidOperationException>(() => _memberRepository.CreateMember(member2));
+			Assert.Throws<InvalidOperationException>(() => _memberRepository.CreateMember(member));
         }
 
 		[Fact]

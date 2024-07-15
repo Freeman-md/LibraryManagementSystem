@@ -33,6 +33,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
 		[Fact]
 		public void GetAllMembers_WhenNoMembersExist_ShouldReturnEmptyList()
 		{
+            _memberRepository.SaveMembers(new List<Member>());
             List<Member> members = _memberRepository.GetAllMembers();
 
 			Assert.NotNull(members);
@@ -42,10 +43,11 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
 		[Fact]
 		public void GetMember_ByExistingId_ShouldReturnMember()
 		{
-			Member member = CreateMember();
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member member = CreateMember(email: randomEmail);
 			_memberRepository.CreateMember(member);
 
-			Member? foundMember = _memberRepository.GetMemberById(member.Id);
+			Member? foundMember = _memberRepository.GetMember(member.Id);
 
 			Assert.NotNull(foundMember);
 			Assert.Equal(foundMember.Name, member.Name);
@@ -57,7 +59,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
 		{
 			Guid id = Guid.NewGuid();
 
-            Member? nullMember = _memberRepository.GetMemberById(id);
+            Member? nullMember = _memberRepository.GetMember(id);
 
             Assert.Null(nullMember);
         }

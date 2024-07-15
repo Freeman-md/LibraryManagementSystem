@@ -8,12 +8,12 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
 		[Fact]
 		public void DeleteBook_ShouldRemoveBookSuccessfully()
 		{
-			Book bookToDelete = CreateBook();
+            Book bookToDelete = CreateBook();
 			_bookService.AddBook(bookToDelete);
 
 			_bookService.DeleteBook(bookToDelete.Id);
 
-			Book? nullBook = _bookService.GetBookById(bookToDelete.Id);
+            Book? nullBook = _bookService.GetBookById(bookToDelete.Id);
 
 			Assert.Null(nullBook);
 		}

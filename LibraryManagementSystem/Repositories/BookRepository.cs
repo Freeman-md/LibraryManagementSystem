@@ -4,7 +4,7 @@ using LibraryManagementSystem.Models;
 
 namespace LibraryManagementSystem.Repositories
 {
-	public class BookRepository : BaseRepository
+	public class BookRepository : BaseRepository<Book>
 	{
         public BookRepository(IFileContext<Book> fileContext, string filePath = "books.json") : base(fileContext, filePath) {}
 

@@ -12,7 +12,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
             _memberRepository.CreateMember(member);
 
             _memberRepository.DeleteMember(member.Id);
-            Member deletedMember = _memberRepository.GetMemberById(member.Id);
+            Member? deletedMember = _memberRepository.GetMember(member.Id);
 
             Assert.Null(deletedMember);
         }

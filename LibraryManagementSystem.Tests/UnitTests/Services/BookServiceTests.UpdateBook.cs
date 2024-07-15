@@ -8,12 +8,12 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
 		[Fact]
 		public void UpdateBook_ShouldUpdateBookSuccessfully()
 		{
-			Book book = CreateBook();
+            Book book = CreateBook();
 			_bookService.AddBook(book);
-			Book updatedBook = CreateBook(title: "Updated Title", author: "Updated Author");
+            Book updatedBook = CreateBook(title: "Updated Title", author: "Updated Author");
 
 			_bookService.UpdateBook(updatedBook, book.Id);
-			Book? result = _bookService.GetBookById(book.Id);
+            Book? result = _bookService.GetBookById(book.Id);
 
 			Assert.NotNull(result);
 			Assert.Equal(updatedBook.Title, result.Title);

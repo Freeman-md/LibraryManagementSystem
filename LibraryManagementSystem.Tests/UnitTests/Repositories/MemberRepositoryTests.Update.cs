@@ -10,10 +10,10 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
 		{
 			Member member = CreateMember();
 			_memberRepository.CreateMember(member);
-			Member updatedMember = CreateMember(name: "Chris Taylor", email: "christaylor@gmail.com");
+            Member updatedMember = CreateMember(name: "Chris Taylor", email: "christaylor@gmail.com");
 
 			_memberRepository.UpdateMember(updatedMember, member.Id);
-			Member result = _memberRepository.GetMemberById(member.Id);
+            Member? result = _memberRepository.GetMember(member.Id);
 
 			Assert.NotNull(result);
 			Assert.Equal(result.Name, updatedMember.Name);
