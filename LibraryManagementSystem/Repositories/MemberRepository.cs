@@ -32,6 +32,10 @@ namespace LibraryManagementSystem.Repositories
             throw new NotImplementedException();
         }
 
+        public void SaveMembers(List<Member> members)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

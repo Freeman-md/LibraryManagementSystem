@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Text.Json.Serialization;
+
 namespace LibraryManagementSystem.Models
 {
 	public class Member
 	{
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
+        public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public DateTime MembershipDate { get; private set; }
         public string Address { get; set; }
+        public DateTime MembershipDate { get; private set; }
 
         public List<Transaction> BorrowedBooks
         {
@@ -18,14 +21,18 @@ namespace LibraryManagementSystem.Models
             }
         }
 
-        public Member(int id, string email, string phoneNumber, DateTime membershipDate, string address)
+        [JsonConstructor]
+        public Member(Guid id, string name, string email, string phoneNumber, string address, DateTime membershipDate = default(DateTime))
 		{
-            Id = id;
+            Id = id == Guid.Empty ? Guid.NewGuid() : id;
+            Name = name;
             Email = email;
             PhoneNumber = phoneNumber;
-            MembershipDate = membershipDate;
             Address = address;
-		}
+            MembershipDate = membershipDate == default(DateTime) ? DateTime.Now : membershipDate;
+        }
+
+        public Member(string name, string email, string phoneNumber, string address, DateTime membershipDate = default(DateTime)) : this(Guid.NewGuid(), name, email, phoneNumber, address, DateTime.Now) { }
 
         public override bool Equals(object? obj)
         {

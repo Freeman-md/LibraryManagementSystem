@@ -23,8 +23,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
 
         [Fact]
         public void GetAllBooks_ShouldReturnAllBooks()
-        {
-            
+        {   
             Book book = CreateBook();
             _bookRepository.AddBook(book);
 
