@@ -63,8 +63,17 @@ namespace LibraryManagementSystem.Repositories
             return existingMember;
         }
 
-        public Member DeleteMember(Guid id) {
-            throw new NotImplementedException();
+        public void DeleteMember(Guid memberId) {
+            List<Member> members = GetAllMembers();
+            Member? member = members.FirstOrDefault(member => member.Id == memberId);
+
+            if (member == null)
+            {
+                throw new ArgumentException("Member does not exist.", nameof(memberId));
+            }
+
+            members.Remove(member);
+            SaveMembers(members);
         }
 
         public void SaveMembers(List<Member> members)

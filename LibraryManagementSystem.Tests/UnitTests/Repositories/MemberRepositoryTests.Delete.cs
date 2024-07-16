@@ -8,7 +8,8 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
 		[Fact]
 		public void Delete_ExistingMember_ShouldDeleteMemberSuccessfully()
 		{
-            Member member = CreateMember();
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member member = CreateMember(email: randomEmail);
             _memberRepository.CreateMember(member);
 
             _memberRepository.DeleteMember(member.Id);
