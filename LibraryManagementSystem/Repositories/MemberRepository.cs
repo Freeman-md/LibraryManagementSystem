@@ -43,9 +43,24 @@ namespace LibraryManagementSystem.Repositories
             return member;
         }
 
-        public Member UpdateMember(Member member, Guid id)
+        public Member UpdateMember(Member updatedMember, Guid memberId)
         {
-            throw new NotImplementedException();
+            List<Member> members = GetAllMembers();
+            Member? existingMember = members.FirstOrDefault(member => member.Id == memberId);
+
+            if (existingMember == null)
+            {
+                throw new ArgumentException("Member does not exist.", nameof(memberId));
+            }
+
+            existingMember.Name = updatedMember.Name;
+            existingMember.Email = updatedMember.Email;
+            existingMember.PhoneNumber = updatedMember.PhoneNumber;
+            existingMember.Address = updatedMember.Address;
+
+            SaveMembers(members);
+
+            return existingMember;
         }
 
         public Member DeleteMember(Guid id) {

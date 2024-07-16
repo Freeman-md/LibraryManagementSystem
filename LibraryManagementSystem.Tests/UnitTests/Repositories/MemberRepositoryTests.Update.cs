@@ -8,8 +8,9 @@ namespace LibraryManagementSystem.Tests.UnitTests.Repositories
 		[Fact]
 		public void Update_ExistingMember_ShouldUpdateDetails()
 		{
-			Member member = CreateMember();
-			_memberRepository.CreateMember(member);
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member member = CreateMember(email: randomEmail);
+            _memberRepository.CreateMember(member);
             Member updatedMember = CreateMember(name: "Chris Taylor", email: "christaylor@gmail.com");
 
 			_memberRepository.UpdateMember(updatedMember, member.Id);
