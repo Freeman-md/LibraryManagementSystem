@@ -36,7 +36,7 @@ namespace LibraryManagementSystem.Models
             if (obj == null || GetType() != obj.GetType())
                 return false;
 
-            var book = (Member)obj;
+            var book = (Book)obj;
             return Id == book.Id;
         }
 
