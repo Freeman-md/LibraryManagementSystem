@@ -12,7 +12,7 @@ namespace LibraryManagementSystem.Tests.TestHelpers
 
         public MemberRepositoryFixture()
         {
-            _testFilePath = Path.Combine(Path.GetTempPath(), $"members_repository_test_{Guid.NewGuid()}.json");
+            _testFilePath = Path.Combine(Path.GetTempPath(), $"member_repository_test_{Guid.NewGuid()}.json");
 
             JsonFileContext<Member> fileContext = new JsonFileContext<Member>();
             MemberRepository = new MemberRepository(fileContext, _testFilePath);
