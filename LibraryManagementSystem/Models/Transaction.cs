@@ -4,22 +4,16 @@ namespace LibraryManagementSystem.Models
 	public class Transaction
 	{
 		public int Id { get; private set; }
-        public int BookId { get; private set; }
-		public int MemberId { get; private set; }
-		public DateTime BorrowDate { get; set; }
-        public DateTime DueDate { get; set; }
-        public DateTime ReturnDate { get; set; }
-		public double Fine { get; set; }
+        public Book Book { get; private set; }
+		public Member Member { get; private set; }
+		public DateTime TransactionDate { get; set; }
 
-        public Transaction(int id, int bookId, int memberId, DateTime borrowDate, DateTime dueDate, DateTime returnDate, double fine)
+        public Transaction(int id, Book book, Member member, DateTime transactionDate)
 		{
 			Id = id;
-			BookId = bookId;
-			MemberId = memberId;
-			BorrowDate = borrowDate;
-			DueDate = dueDate;
-			ReturnDate = returnDate;
-			Fine = fine;
+			Book = book;
+			Member = member;
+			TransactionDate = transactionDate;
 		}
 	}
 }
