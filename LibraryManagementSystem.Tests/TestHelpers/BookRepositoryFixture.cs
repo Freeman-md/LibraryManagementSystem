@@ -12,7 +12,7 @@ namespace LibraryManagementSystem.Tests.TestHelpers
 
         public BookRepositoryFixture()
         { 
-            _testFilePath = Path.Combine(Path.GetTempPath(), $"books_repository_test_{Guid.NewGuid()}.json");
+            _testFilePath = Path.Combine(Path.GetTempPath(), $"book_repository_test_{Guid.NewGuid()}.json");
 
             JsonFileContext<Book> fileContext = new JsonFileContext<Book>();
             BookRepository = new BookRepository(fileContext, _testFilePath);
