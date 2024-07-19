@@ -1,12 +1,14 @@
 ﻿using LibraryManagementSystem.FileContexts;
 using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Repositories;
+using LibraryManagementSystem.Services;
 
 namespace LibraryManagementSystem.Tests;
 
 public class SearchBookServiceFixture
 {
     public SearchBookService SearchBookService;
+    public BookService BookService;
     private readonly string _testFilePath;
 
     public SearchBookServiceFixture()
@@ -17,6 +19,7 @@ public class SearchBookServiceFixture
         BookRepository bookRepository = new BookRepository(jsonFileContext);
 
         SearchBookService = new SearchBookService(bookRepository);
+        BookService = new BookService(bookRepository);
     }
 
     public void Dispose()
