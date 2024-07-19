@@ -1,12 +1,13 @@
 ﻿using System;
 using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Tests.TestHelpers;
+using LibraryManagementSystem.Services;
 
 namespace LibraryManagementSystem.Tests.UnitTests.Services
 {
 	public partial class BookServiceTests
 	{
-        private readonly LibraryManagementSystem.Services.BookService _bookService;
+        private readonly BookService _bookService;
 
         public BookServiceTests(BookServiceFixture fixture)
         {
