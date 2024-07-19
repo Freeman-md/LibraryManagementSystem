@@ -21,17 +21,19 @@ namespace LibraryManagementSystem.Models
         }
 
         [JsonConstructor]
-        public Member(Guid id, string name, string email, string phoneNumber, string address, DateTime membershipDate = default(DateTime))
+        public Member(Guid id, string name, string email, string phoneNumber, string address)
 		{
             Id = id == Guid.Empty ? Guid.NewGuid() : id;
             Name = name;
             Email = email;
             PhoneNumber = phoneNumber;
             Address = address;
-            MembershipDate = membershipDate == default(DateTime) ? DateTime.Now : membershipDate;
+            MembershipDate = DateTime.Now;
         }
 
-        public Member(string name, string email, string phoneNumber, string address, DateTime membershipDate = default(DateTime)) : this(Guid.NewGuid(), name, email, phoneNumber, address, DateTime.Now) { }
+        public Member(string name, string email, string phoneNumber, string address) : this(Guid.NewGuid(), name, email, phoneNumber, address) { }
+
+        public Member(string name, string email) : this(Guid.NewGuid(), name, email, string.Empty, string.Empty) { }
 
         public override bool Equals(object? obj)
         {

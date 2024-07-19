@@ -14,17 +14,15 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
             string name = "John Doe",
             string email = "johndoe@gmail.com",
             string phoneNumber = "09089432893",
-            string address = "35 Cranbourn Street, Leicester Square",
-            DateTime publishDate = default(DateTime)
-        ) => new Member(id, name, email, phoneNumber, address, publishDate);
+            string address = "35 Cranbourn Street, Leicester Square"
+        ) => new Member(id, name, email, phoneNumber, address);
 
         private static Member CreateMember(
             string name = "John Doe",
             string email = "johndoe@gmail.com",
             string phoneNumber = "09089432893",
-            string address = "35 Cranbourn Street, Leicester Square",
-            DateTime publishDate = default(DateTime)
-        ) => CreateMember(Guid.NewGuid(), name, email, phoneNumber, address, publishDate);
+            string address = "35 Cranbourn Street, Leicester Square"
+        ) => CreateMember(Guid.NewGuid(), name, email, phoneNumber, address);
 
         public MemberServiceTests(MemberServiceFixture fixture)
 		{

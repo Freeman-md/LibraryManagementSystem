@@ -18,7 +18,7 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
         }
 
         [Fact]
-        public void GetBook_WhenItemDoesNotExist_ShouldReturnNull()
+        public void GetBook_WhenBookDoesNotExist_ShouldReturnNull()
         {
             Book book = CreateBook();
 
