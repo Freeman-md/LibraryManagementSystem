@@ -32,6 +32,32 @@ public partial class MemberServiceTests
         }
 
         [Fact]
+        public void UpdateMember_WithEmptyName_ShouldThrowArgumentException()
+        {
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member member = CreateMember(email: randomEmail);
+            _memberService.RegisterMember(member);
+
+            Member invalidMember = CreateMember(name: "", email: "jamesbond@gmail.com");
+
+			ArgumentException ex = Assert.Throws<ArgumentException>(() => _memberService.RegisterMember(invalidMember));
+            Assert.Equal("Name", ex.ParamName);
+        }
+
+        [Fact]
+        public void UpdateMember_WithEmptyEmail_ShouldThrowArgumentException()
+        {
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member member = CreateMember(email: randomEmail);
+            _memberService.RegisterMember(member);
+
+            Member invalidMember = CreateMember(name: "Johnny bravo", email: "");
+
+			ArgumentException ex = Assert.Throws<ArgumentException>(() => _memberService.RegisterMember(invalidMember));
+            Assert.Equal("Email", ex.ParamName);
+        }
+
+        [Fact]
         public void UpdateMember_WhenMemberDoesNotExist_ShouldThrowArgumentException()
         {
             Guid id = Guid.NewGuid();
