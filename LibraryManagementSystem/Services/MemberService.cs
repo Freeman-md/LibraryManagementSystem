@@ -40,9 +40,9 @@ namespace LibraryManagementSystem.Services
             throw new NotImplementedException();
         }
 
-        public Member DeleteMember(Guid id)
+        public void DeleteMember(Guid id)
         {
-            throw new NotImplementedException();
+            _memberRepository.DeleteMember(id);
         }
 
         private static void ValidateMember(Member member) {
