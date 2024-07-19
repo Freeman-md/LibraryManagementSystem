@@ -40,7 +40,7 @@ public partial class MemberServiceTests
 
             Member invalidMember = CreateMember(name: "", email: "jamesbond@gmail.com");
 
-			ArgumentException ex = Assert.Throws<ArgumentException>(() => _memberService.RegisterMember(invalidMember));
+			ArgumentException ex = Assert.Throws<ArgumentException>(() => _memberService.UpdateMember(invalidMember, member.Id));
             Assert.Equal("Name", ex.ParamName);
         }
 
@@ -53,7 +53,7 @@ public partial class MemberServiceTests
 
             Member invalidMember = CreateMember(name: "Johnny bravo", email: "");
 
-			ArgumentException ex = Assert.Throws<ArgumentException>(() => _memberService.RegisterMember(invalidMember));
+			ArgumentException ex = Assert.Throws<ArgumentException>(() => _memberService.UpdateMember(invalidMember, member.Id));
             Assert.Equal("Email", ex.ParamName);
         }
 
