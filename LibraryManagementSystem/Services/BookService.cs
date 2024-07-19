@@ -40,7 +40,7 @@ namespace LibraryManagementSystem.Services
 
         public void UpdateBook(Book updatedBook, Guid id)
         {
-            if (updatedBook == null) throw new ArgumentNullException(nameof(updatedBook));
+            ValidateBook(updatedBook);
 
             _bookRepository.UpdateBook(updatedBook, id);
         }

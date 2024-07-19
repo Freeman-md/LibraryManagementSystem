@@ -37,7 +37,9 @@ namespace LibraryManagementSystem.Services
 
         public Member UpdateMember(Member member, Guid id)
         {
-            throw new NotImplementedException();
+            ValidateMember(member);
+
+            return _memberRepository.UpdateMember(member, id);
         }
 
         public void DeleteMember(Guid id)
