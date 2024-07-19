@@ -1,12 +1,25 @@
 ﻿using System;
 using LibraryManagementSystem.Models;
-using LibraryManagementSystem.Tests.TestHelpers;
 
 namespace LibraryManagementSystem.Tests.UnitTests.Services
 {
-    public partial class BookServiceTests : IClassFixture<BookServiceFixture>
-    {
-        [Fact]
+	public partial class BookServiceTests
+	{
+		[Fact]
+		public void GetAllBooks_ShouldReturnCollectionOfBooks()
+		{
+			for (int i = 1; i <= 10; i++)
+			{
+				_bookService.AddBook(CreateBook());
+            }
+
+			List<Book> books = _bookService.GetAllBooks();
+
+			Assert.IsType<List<Book>>(books);
+			Assert.NotEmpty(books);
+        }
+
+		[Fact]
         public void GetBook_WhenBookIdIsValid_ShouldReturnBook()
         {
             Book book = _bookService.AddBook(CreateBook());
@@ -26,6 +39,6 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
 
             Assert.Null(foundBook);
         }
-    }
+	}
 }
 
