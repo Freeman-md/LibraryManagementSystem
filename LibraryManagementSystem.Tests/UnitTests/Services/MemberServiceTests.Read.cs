@@ -11,7 +11,8 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
         {
             for (int i = 1; i <= 10; i++)
             {
-                _memberService.RegisterMember(CreateMember());
+                var randomEmail = $"user{Guid.NewGuid()}@example.com";
+                _memberService.RegisterMember(CreateMember(email: randomEmail));
             }
 
             List<Member> members = _memberService.GetAllMembers();
@@ -23,7 +24,8 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
         [Fact]
         public void GetMember_WhenMemberIdIsValid_ShouldReturnMember()
         {
-            Member member = _memberService.RegisterMember(CreateMember());
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member member = _memberService.RegisterMember(CreateMember(email: randomEmail));
 
             Member? foundMember = _memberService.GetMember(member.Id);
 

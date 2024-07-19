@@ -33,10 +33,11 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
         [Fact]
         public void RegisterMember_WithAllDetails_ShouldRegisterMemberSuccessfully()
         {
-            Member member = CreateMember();
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member member = CreateMember(email: randomEmail);
 
             _memberService.RegisterMember(member);
-            Member createdMember = _memberService.GetMember(member.Id);
+            Member? createdMember = _memberService.GetMember(member.Id);
 
             Assert.NotNull(createdMember);
             Assert.Equal(createdMember.Name, member.Name);

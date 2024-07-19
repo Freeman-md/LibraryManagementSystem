@@ -15,22 +15,24 @@ namespace LibraryManagementSystem.Services
 
         public List<Member> GetAllMembers()
         {
-            throw new NotImplementedException();
+            return _memberRepository.GetAllMembers();
         }
 
 		public Member RegisterMember(Member member)
 		{
-			throw new NotImplementedException();
+			ValidateMember(member);
+
+            return _memberRepository.CreateMember(member);
 		}
 
-        public Member GetMember(Guid id)
+        public Member? GetMember(Guid id)
         {
-            throw new NotImplementedException();
+            return _memberRepository.GetMember(id);
         }
 
-        public Member GetMember(string email)
+        public Member? GetMember(string email)
         {
-            throw new NotImplementedException();
+            return _memberRepository.GetMember(email);
         }
 
         public Member UpdateMember(Member member, Guid id)
@@ -41,6 +43,22 @@ namespace LibraryManagementSystem.Services
         public Member DeleteMember(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        private static void ValidateMember(Member member) {
+            if (member == null) {
+                throw new ArgumentNullException(nameof(member));
+            }
+
+            if (string.IsNullOrWhiteSpace(member.Name))
+            {
+                throw new ArgumentException("Member name cannot be empty.", nameof(member.Name));
+            }
+
+            if (string.IsNullOrWhiteSpace(member.Email))
+            {
+                throw new ArgumentException("Member email cannot be empty.", nameof(member.Email));
+            }
         }
     }
 }

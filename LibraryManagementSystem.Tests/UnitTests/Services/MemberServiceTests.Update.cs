@@ -7,7 +7,8 @@ public partial class MemberServiceTests
 [Fact]
 		public void UpdateMember_ShouldUpdateMemberSuccessfully()
 		{
-            Member member = CreateMember();
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member member = CreateMember(email: randomEmail);
 			_memberService.RegisterMember(member);
             Member updatedMember = CreateMember(name: "James Bond", email: "jamesbond@gmail.com");
 
@@ -22,7 +23,8 @@ public partial class MemberServiceTests
 		[Fact]
         public void UpdateMember_WithNullItem_ShouldThrowArgumentNullException()
         {
-            Member member = CreateMember();
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member member = CreateMember(email: randomEmail);
             _memberService.RegisterMember(member);
             Member? updatedMember = null;
 

@@ -8,12 +8,13 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
         [Fact]
         public void DeleteMember_ShouldRemoveMemberSuccessfully()
         {
-            Member bookToDelete = CreateMember();
-            _memberService.RegisterMember(bookToDelete);
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member memberToDelete = CreateMember(email: randomEmail);
+            _memberService.RegisterMember(memberToDelete);
 
-            _memberService.DeleteMember(bookToDelete.Id);
+            _memberService.DeleteMember(memberToDelete.Id);
 
-            Member? nullMember = _memberService.GetMember(bookToDelete.Id);
+            Member? nullMember = _memberService.GetMember(memberToDelete.Id);
 
             Assert.Null(nullMember);
         }
