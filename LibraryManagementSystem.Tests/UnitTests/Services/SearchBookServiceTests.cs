@@ -6,8 +6,17 @@ namespace LibraryManagementSystem.Tests;
 
 public class SearchBookServiceTests : IClassFixture<SearchBookServiceFixture>
 {
+    // private readonly SearchBookServiceFixture _fixture;
     private readonly SearchBookService _searchBookService;
     private readonly BookService _bookService;
+
+    public SearchBookServiceTests(SearchBookServiceFixture fixture)
+    {   
+        _searchBookService = fixture.SearchBookService;
+        _bookService = fixture.BookService;
+
+        fixture.ClearData();
+    }
 
     private static Book CreateBook(
             string title = "Original Title",
@@ -16,12 +25,6 @@ public class SearchBookServiceTests : IClassFixture<SearchBookServiceFixture>
             string isbn = "090-93080-3893",
             DateTime publishDate = default(DateTime),
             bool isAvailable = true) => new Book(title, author, genre, isbn, publishDate, isAvailable);
-
-    public SearchBookServiceTests(SearchBookServiceFixture fixture)
-    {
-        _searchBookService = fixture.SearchBookService;
-        _bookService = fixture.BookService;
-    }
 
     [Fact]
     public void SearchBooks_WithMatchingTitle_ShouldReturnBooks()
@@ -115,5 +118,11 @@ public class SearchBookServiceTests : IClassFixture<SearchBookServiceFixture>
         List<Book> searchBookResults = _searchBookService.SearchBooks("non-existing");
         
         Assert.Empty(searchBookResults);
+    }
+
+    [Fact]
+    public void SearchBooks_NoSearchTerm_ShouldThrowArgumentNullException()
+    {
+        Assert.Throws<ArgumentNullException>(() => _searchBookService.SearchBooks(null!));
     }
 }

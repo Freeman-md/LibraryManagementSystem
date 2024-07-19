@@ -5,7 +5,7 @@ using LibraryManagementSystem.Repositories;
 
 namespace LibraryManagementSystem.Tests.TestHelpers
 {
-	public class MemberRepositoryFixture
+	public class MemberRepositoryFixture : IDisposable
 	{
         public MemberRepository MemberRepository { get; private set; }
         private readonly string _testFilePath;
