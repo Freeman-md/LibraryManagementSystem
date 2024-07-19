@@ -4,7 +4,7 @@ using LibraryManagementSystem.Tests.TestHelpers;
 
 namespace LibraryManagementSystem.Tests.UnitTests.Services
 {
-    public partial class BookServiceTests : IClassFixture<BookServiceFixture>
+    public partial class BookServiceTests
     {
         [Fact]
         public void AddBook_WithNullItem_ShouldThrowArgumentNullException()

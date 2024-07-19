@@ -5,8 +5,8 @@ using LibraryManagementSystem.Services;
 
 namespace LibraryManagementSystem.Tests.UnitTests.Services
 {
-	public partial class BookServiceTests
-	{
+	public partial class BookServiceTests : IClassFixture<BookServiceFixture>
+    {
         private readonly BookService _bookService;
 
         public BookServiceTests(BookServiceFixture fixture)
