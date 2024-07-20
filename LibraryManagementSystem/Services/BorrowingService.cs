@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
+using LibraryManagementSystem.Models;
 
 namespace LibraryManagementSystem;
 
@@ -8,7 +9,7 @@ public class BorrowingService
 
     }
 
-    public void borrowBook() {
+    public void borrowBook(Book book, Member member, int duration) {
         
     }
 

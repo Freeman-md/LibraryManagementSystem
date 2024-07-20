@@ -1,20 +1,24 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 namespace LibraryManagementSystem.Models
 {
 	public class Transaction
 	{
-		public int Id { get; private set; }
+		public Guid Id { get; private set; }
         public Book Book { get; private set; }
 		public Member Member { get; private set; }
-		public DateTime TransactionDate { get; set; }
+		protected DateTime TransactionDate { get; private set; }
 
-        public Transaction(int id, Book book, Member member, DateTime transactionDate)
+		[JsonConstructor]
+        public Transaction(Guid id, Book book, Member member, DateTime transactionDate = default(DateTime))
 		{
 			Id = id;
 			Book = book;
 			Member = member;
 			TransactionDate = transactionDate;
 		}
+
+		public Transaction(Book book, Member member) : this(Guid.NewGuid(), book, member) {}
 	}
 }
 

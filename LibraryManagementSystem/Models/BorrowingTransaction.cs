@@ -4,12 +4,12 @@ namespace LibraryManagementSystem;
 
 public class BorrowingTransaction : Transaction
 {
-    public DateTime DueDate { get; set; }
-    public DateTime ReturnDate { get; set; }
+    public DateTime DueDate { get; private set; }
+    public DateTime? ReturnDate { get; set; }
     public double Fine { get; set; }
 
-    public BorrowingTransaction(int id, Book book, Member member, DateTime borrowDate, DateTime dueDate, DateTime returnDate, double fine)
-        : base(id, book, member, borrowDate)
+    public BorrowingTransaction(Book book, Member member, DateTime dueDate, double fine = 0.0, DateTime? returnDate = null)
+        : base(book, member)
     {
         DueDate = dueDate;
         ReturnDate = returnDate;
