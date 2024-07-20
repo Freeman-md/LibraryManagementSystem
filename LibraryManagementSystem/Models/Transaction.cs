@@ -12,13 +12,27 @@ namespace LibraryManagementSystem.Models
 		[JsonConstructor]
         public Transaction(Guid id, Book book, Member member, DateTime transactionDate = default(DateTime))
 		{
-			Id = id;
-			Book = book;
+            Id = id == Guid.Empty ? Guid.NewGuid() : id;
+            Book = book;
 			Member = member;
 			TransactionDate = transactionDate;
 		}
 
 		public Transaction(Book book, Member member) : this(Guid.NewGuid(), book, member) {}
+
+		public override bool Equals(object? obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            var transaction = (Transaction)obj;
+            return Id == transaction.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
 	}
 }
 

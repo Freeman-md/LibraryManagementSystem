@@ -44,16 +44,16 @@ public partial class BorrowingTransactionRepositoryTests
     [Fact]
     public void GetAllBorrowingTransactions_ForMember_ShouldReturnAllBorrowingTransactions()
     {
-        const int TOTAL_NUMBER_OF_BORROWING_TRANSACTIONS_TO_CREATE = 3;
+        const int TOTAL_NUMBER_OF_BORROWING_TRANSACTIONS_TO_CREATE = 2;
         List<BorrowingTransaction> borrowingTransactions = new List<BorrowingTransaction>();
         List<Member> members = new List<Member>() {
-            Helpers.CreateMember($"user{Guid.NewGuid()}@example.com"),
-            Helpers.CreateMember($"user{Guid.NewGuid()}@example.com"),
+            Helpers.CreateMember(email: $"ritabernard@example.com"),
+            Helpers.CreateMember(email: $"joshruaser@example.com"),
         };
 
         Member firstMember = members.First();
 
-        foreach(Member member in members) {
+         foreach(Member member in members) {
             for (int i = 0; i < TOTAL_NUMBER_OF_BORROWING_TRANSACTIONS_TO_CREATE; i++)
             {
                 borrowingTransactions.Add(Helpers.CreateBorrowingTransaction(member: member));

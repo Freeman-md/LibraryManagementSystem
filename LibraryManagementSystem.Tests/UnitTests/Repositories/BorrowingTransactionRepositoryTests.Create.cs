@@ -9,7 +9,7 @@ public partial class BorrowingTransactionRepositoryTests
         BorrowingTransaction borrowingTransaction = Helpers.CreateBorrowingTransaction();
 
         _borrowingTransactionRepository.CreateBorrowingTransaction(borrowingTransaction);
-        BorrowingTransaction createdBorrowingTransaction = _borrowingTransactionRepository.GetBorrowingTransaction(borrowingTransaction.Id);
+        BorrowingTransaction? createdBorrowingTransaction = _borrowingTransactionRepository.GetBorrowingTransaction(borrowingTransaction.Id);
 
         Assert.NotNull(createdBorrowingTransaction);
         Assert.Equal(borrowingTransaction.Id, createdBorrowingTransaction.Id);

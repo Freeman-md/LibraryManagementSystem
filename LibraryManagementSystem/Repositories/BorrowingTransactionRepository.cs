@@ -9,19 +9,29 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
     public BorrowingTransactionRepository(IFileContext<BorrowingTransaction> fileContext, string filePath = "borrowing-transactions.json") : base(fileContext, filePath) { }
 
     public List<BorrowingTransaction> GetAllBorrowingTransactions() {
-        throw new NotImplementedException();
+        return _fileContext.ReadFromFile(_filePath);
     }
 
     public List<BorrowingTransaction> GetAllBorrowingTransactionsForMember(Member member) {
-        throw new NotImplementedException();
+        List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
+
+        return borrowingTransactions.Where((borrowingTransaction) => borrowingTransaction.Member.Id == member.Id).ToList();
     }
 
-    public BorrowingTransaction GetBorrowingTransaction(Guid id) {
-        throw new NotImplementedException();
+    public BorrowingTransaction? GetBorrowingTransaction(Guid id) {
+        List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
+
+        return borrowingTransactions.FirstOrDefault((borrowingTransaction) => borrowingTransaction.Id == id);
     }
 
     public BorrowingTransaction CreateBorrowingTransaction(BorrowingTransaction borrowingTransaction) {
-        throw new NotImplementedException();
+        List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
+
+        borrowingTransactions.Add(borrowingTransaction);
+
+        SaveBorrowingTransactions(borrowingTransactions);
+
+        return borrowingTransaction;
     }
 
     public BorrowingTransaction UpdateBorrowingTransaction(BorrowingTransaction updatedBorrowingTransaction, Guid id) {
@@ -33,6 +43,6 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
     }
 
     public void SaveBorrowingTransactions(List<BorrowingTransaction> borrowingTransactions) {
-        throw new NotImplementedException();
+        _fileContext.WriteToFile(_filePath, borrowingTransactions);
     }
 }

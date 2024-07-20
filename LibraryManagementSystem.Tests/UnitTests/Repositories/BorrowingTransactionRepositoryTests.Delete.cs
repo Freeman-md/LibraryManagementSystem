@@ -11,7 +11,7 @@ public partial class BorrowingTransactionRepositoryTests
         _borrowingTransactionRepository.CreateBorrowingTransaction(borrowingTransaction);
 
         _borrowingTransactionRepository.DeleteBorrowingTransaction(borrowingTransaction.Id);
-        BorrowingTransaction deletedBorrowingTransaction = _borrowingTransactionRepository.GetBorrowingTransaction(borrowingTransaction.Id);
+        BorrowingTransaction? deletedBorrowingTransaction = _borrowingTransactionRepository.GetBorrowingTransaction(borrowingTransaction.Id);
 
         Assert.Null(deletedBorrowingTransaction);
     }
