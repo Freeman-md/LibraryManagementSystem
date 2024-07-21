@@ -51,7 +51,14 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
     }
 
     public void DeleteBorrowingTransaction(Guid id) {
-        throw new NotImplementedException();
+        List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
+        BorrowingTransaction? borrowingTransactionToDelete  = GetBorrowingTransaction(id);
+
+        if (borrowingTransactionToDelete == null) throw new ArgumentException("Borrowing Transaction does not exist.", nameof(id));
+
+        borrowingTransactions.Remove(borrowingTransactionToDelete);
+
+        SaveBorrowingTransactions(borrowingTransactions);
     }
 
     public void SaveBorrowingTransactions(List<BorrowingTransaction> borrowingTransactions) {
