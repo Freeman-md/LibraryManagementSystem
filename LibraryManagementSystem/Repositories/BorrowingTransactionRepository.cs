@@ -35,7 +35,19 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
     }
 
     public BorrowingTransaction UpdateBorrowingTransaction(BorrowingTransaction updatedBorrowingTransaction, Guid id) {
-        throw new NotImplementedException();
+        List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
+
+        BorrowingTransaction? borrowingTransactionToUpdate = borrowingTransactions.FirstOrDefault((borrowingTransaction) => borrowingTransaction.Id == id);;
+        if (borrowingTransactionToUpdate == null) {
+            throw new ArgumentException("Borrowing Transaction does not exist.", nameof(id));
+        }
+
+        borrowingTransactionToUpdate.Fine = updatedBorrowingTransaction.Fine;
+        borrowingTransactionToUpdate.ReturnDate = updatedBorrowingTransaction.ReturnDate;
+
+        SaveBorrowingTransactions(borrowingTransactions);
+
+        return borrowingTransactionToUpdate;
     }
 
     public void DeleteBorrowingTransaction(Guid id) {

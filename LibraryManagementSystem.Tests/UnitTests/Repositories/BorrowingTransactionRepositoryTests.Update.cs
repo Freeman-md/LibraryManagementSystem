@@ -16,8 +16,10 @@ public partial class BorrowingTransactionRepositoryTests
 
 			Assert.NotNull(result);
             Assert.NotNull(result.ReturnDate);
-			Assert.NotEqual(result.Fine, updatedBorrowingTransaction.Fine);
-            Assert.NotEqual(result.ReturnDate, updatedBorrowingTransaction.ReturnDate);
+			Assert.NotEqual(result.Fine, borrowingTransaction.Fine);
+            Assert.NotEqual(result.ReturnDate, borrowingTransaction.ReturnDate);
+            Assert.Equal(result.Fine, updatedBorrowingTransaction.Fine);
+            Assert.Equal(result.Fine, updatedBorrowingTransaction.Fine);
         }
 
         [Fact]
