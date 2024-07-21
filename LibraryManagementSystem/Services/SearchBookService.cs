@@ -5,7 +5,7 @@ namespace LibraryManagementSystem;
 
 public class SearchBookService
 {
-    private BookRepository _bookRepository;
+    private readonly BookRepository _bookRepository;
     public SearchBookService(BookRepository bookRepository)
     {
         _bookRepository = bookRepository;

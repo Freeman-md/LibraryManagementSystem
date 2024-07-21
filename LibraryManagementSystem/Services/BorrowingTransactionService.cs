@@ -3,10 +3,11 @@ using LibraryManagementSystem.Models;
 
 namespace LibraryManagementSystem;
 
-public class BorrowingService
+public class BorrowingTransactionService
 {
-    public BorrowingService() {
-
+    private readonly BorrowingTransactionRepository _borrowingTransactionRepository;
+    public BorrowingTransactionService(BorrowingTransactionRepository borrowingTransactionRepository) {
+        _borrowingTransactionRepository = borrowingTransactionRepository;
     }
 
     public void borrowBook(Book book, Member member, int duration) {

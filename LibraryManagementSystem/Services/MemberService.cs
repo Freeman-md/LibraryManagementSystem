@@ -6,7 +6,7 @@ namespace LibraryManagementSystem.Services
 {
 	public class MemberService
 	{
-		private MemberRepository _memberRepository;
+		private readonly MemberRepository _memberRepository;
 		
 		public MemberService(MemberRepository memberRepository)
 		{
