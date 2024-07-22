@@ -18,7 +18,11 @@ public class BorrowingTransactionService
 
     }
 
-    public void viewBorrowedBooks() {
-        
+    public List<BorrowingTransaction> viewAllBorrowedBooks() {
+        throw new NotImplementedException();
+    }
+
+    public List<BorrowingTransaction> viewAllBorrowedBooksForMember(Member member) {
+        throw new NotImplementedException();
     }
 }

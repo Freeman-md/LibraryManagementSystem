@@ -6,4 +6,6 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
     public BorrowingTransactionServiceTests(BorrowingTransactionServiceFixture fixture) {
         _borrowingTransactionService = fixture.BorrowingTransactionService;
     }
+
+    
 }
