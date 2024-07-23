@@ -43,6 +43,5 @@ namespace LibraryManagementSystem.Tests.TestHelpers
 
             return new BorrowingTransaction(book, member, dueDate, fine, returnDate);
         }
-
     }
 }
