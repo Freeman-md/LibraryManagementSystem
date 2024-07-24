@@ -5,14 +5,16 @@ using LibraryManagementSystem.Tests.TestHelpers;
 
 namespace LibraryManagementSystem.Tests;
 
-public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingTransactionServiceFixture>, IClassFixture<MemberServiceFixture>
+public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingTransactionServiceFixture>, IClassFixture<MemberServiceFixture>, IClassFixture<BookServiceFixture>
 {
     private readonly BorrowingTransactionService _borrowingTransactionService;
     private readonly MemberService _memberService;
-    public BorrowingTransactionServiceTests(BorrowingTransactionServiceFixture borrowingTransactionServiceFixture, MemberServiceFixture memberServiceFixture)
+    private readonly BookService _bookService;
+    public BorrowingTransactionServiceTests(BorrowingTransactionServiceFixture borrowingTransactionServiceFixture, MemberServiceFixture memberServiceFixture, BookServiceFixture bookServiceFixture)
     {
         _borrowingTransactionService = borrowingTransactionServiceFixture.BorrowingTransactionService;
         _memberService = memberServiceFixture.MemberService;
+        _bookService = bookServiceFixture.BookService;
     }
 
     [Fact]
@@ -29,6 +31,10 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
         };
         int duration_in_days = 7;
 
+        foreach (Book book in books) {
+            _bookService.AddBook(book);
+        }
+
         foreach (Member member in members) {
             _memberService.RegisterMember(member);
         }
@@ -39,7 +45,7 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
         }
 
         // Act
-        List<BorrowingTransaction> borrowingTransactions = _borrowingTransactionService.ViewAllBorrowedBooks();
+        List<BorrowingTransaction> borrowingTransactions = _borrowingTransactionService.GetAllBorrowedBooks();
 
         // Assert
         Assert.NotNull(borrowingTransactions);
@@ -50,7 +56,7 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
     public void GetAllBorrowedBooks_WhenNoBorrowedBooks_ShouldReturnEmptyList()
     {
         // Act
-        List<BorrowingTransaction> borrowingTransactions = _borrowingTransactionService.ViewAllBorrowedBooks();
+        List<BorrowingTransaction> borrowingTransactions = _borrowingTransactionService.GetAllBorrowedBooks();
 
         // Assert
         Assert.NotNull(borrowingTransactions);
@@ -71,13 +77,17 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
         };
         int duration_in_days = 7;
 
+        foreach (Book book in books) {
+            _bookService.AddBook(book);
+        }
+
         foreach (int index in Enumerable.Range(0, 2))
         {
             _borrowingTransactionService.BorrowBook(books[index].Id, member.Id, duration_in_days);
         }
 
         // Act
-        List<BorrowingTransaction> borrowingTransactions = _borrowingTransactionService.ViewAllBorrowedBooksForMember(member.Id);
+        List<BorrowingTransaction> borrowingTransactions = _borrowingTransactionService.GetAllBorrowedBooksForMember(member.Id);
 
         // Assert
         Assert.NotNull(borrowingTransactions);
@@ -97,7 +107,7 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
         _memberService.RegisterMember(member);
 
         // Act
-        List<BorrowingTransaction> borrowingTransactions = _borrowingTransactionService.ViewAllBorrowedBooksForMember(member.Id);
+        List<BorrowingTransaction> borrowingTransactions = _borrowingTransactionService.GetAllBorrowedBooksForMember(member.Id);
 
         // Assert
         Assert.NotNull(borrowingTransactions);
@@ -111,8 +121,42 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
         Member member = Helpers.CreateMember(email: $"{Guid.NewGuid()}@example.com");
 
         // Assert
-        Assert.Throws<ArgumentException>(() => _borrowingTransactionService.ViewAllBorrowedBooksForMember(member.Id));
+        Assert.Throws<ArgumentException>(() => _borrowingTransactionService.GetAllBorrowedBooksForMember(member.Id));
     }
+
+    [Fact]
+        public void GetBorrowedBook_WhenBorrowingTransactionIdIsValid_ShouldReturnBorrowingTransaction()
+        {
+            // Arrange
+            var randomEmail = $"user{Guid.NewGuid()}@example.com";
+            Member member = _memberService.RegisterMember(Helpers.CreateMember(email: randomEmail));
+            Book book = _bookService.AddBook(Helpers.CreateBook());
+            int duration_in_days = 7;
+
+            BorrowingTransaction borrowingTransaction = _borrowingTransactionService.BorrowBook(book.Id, member.Id, duration_in_days);
+
+            // Act
+            BorrowingTransaction? foundBorrowingTransaction = _borrowingTransactionService.GetBorrowedBook(borrowingTransaction.Id);
+
+            // Assert
+            Assert.NotNull(foundBorrowingTransaction);
+            Assert.Equal(borrowingTransaction.Id, foundBorrowingTransaction.Id);
+            Assert.Equal(book.Id, foundBorrowingTransaction.Book.Id);
+            Assert.Equal(member.Id, foundBorrowingTransaction.Member.Id);
+            Assert.Equal(borrowingTransaction.TransactionDate, foundBorrowingTransaction.TransactionDate);
+            Assert.Equal(borrowingTransaction.DueDate, foundBorrowingTransaction.DueDate);
+            Assert.Equal(duration_in_days, (foundBorrowingTransaction.DueDate - foundBorrowingTransaction.TransactionDate).Days);
+        }
+
+        [Fact]
+        public void GetBorrowedBook_WhenBorrowedBookDoesNotExist_ShouldReturnNull()
+        {
+            BorrowingTransaction borrowingTransaction = Helpers.CreateBorrowingTransaction();
+
+            BorrowingTransaction? foundBorrowingTransaction = _borrowingTransactionService.GetBorrowedBook(borrowingTransaction.Id);
+
+            Assert.Null(foundBorrowingTransaction);
+        }
 
 
 }

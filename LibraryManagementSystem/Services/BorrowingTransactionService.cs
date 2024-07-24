@@ -10,19 +10,27 @@ public class BorrowingTransactionService
         _borrowingTransactionRepository = borrowingTransactionRepository;
     }
 
-    public void BorrowBook(Guid bookId, Guid memberId, int duration) {
-        
-    }
-
-    public void ReturnBook() {
-
-    }
-
-    public List<BorrowingTransaction> ViewAllBorrowedBooks() {
+    public BorrowingTransaction BorrowBook(Guid bookId, Guid memberId, int duration) {
         throw new NotImplementedException();
     }
 
-    public List<BorrowingTransaction> ViewAllBorrowedBooksForMember(Guid id) {
+    public BorrowingTransaction BorrowBook(Guid bookId, Guid memberId) {
+        throw new NotImplementedException();
+    }
+
+    public BorrowingTransaction ReturnBook() {
+        throw new NotImplementedException();
+    }
+
+    public List<BorrowingTransaction> GetAllBorrowedBooks() {
+        throw new NotImplementedException();
+    }
+
+    public List<BorrowingTransaction> GetAllBorrowedBooksForMember(Guid memberId) {
+        throw new NotImplementedException();
+    }
+
+    public BorrowingTransaction GetBorrowedBook(Guid borrowingTransactionId) {
         throw new NotImplementedException();
     }
 }
