@@ -39,7 +39,11 @@ public class BorrowingTransactionService
     }
 
     public List<BorrowingTransaction> GetAllBorrowedBooksForMember(Guid memberId) {
-        throw new NotImplementedException();
+        Member? member = _memberService.GetMember(memberId);
+
+        if (member == null) throw new ArgumentException(nameof(memberId));
+
+        return _borrowingTransactionRepository.GetAllBorrowingTransactionsForMember(memberId);
     }
 
     public BorrowingTransaction GetBorrowedBook(Guid borrowingTransactionId) {

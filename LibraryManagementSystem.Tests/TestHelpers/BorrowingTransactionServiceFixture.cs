@@ -15,12 +15,21 @@ public class BorrowingTransactionServiceFixture : IDisposable
     private readonly string _testFilePathForBooks;
     private readonly string _testFilePathForMembers;
 
+    private readonly JsonFileContext<BorrowingTransaction> _borrowingTransactionFileContext;
+    private readonly JsonFileContext<Book> _bookFileContext;
+    private readonly JsonFileContext<Member> _memberFileContext;
+
     public BorrowingTransactionServiceFixture()
     {
         // Setup temporary file paths for test data
         _testFilePathForBorrowingTransactions = CreateTempFilePath("borrowing_transaction_service_tests");
         _testFilePathForBooks = CreateTempFilePath("borrowing_transaction_service_tests_books");
         _testFilePathForMembers = CreateTempFilePath("borrowing_transaction_service_tests_members");
+
+        // Initialize file contexts
+        _borrowingTransactionFileContext = new JsonFileContext<BorrowingTransaction>();
+        _bookFileContext = new JsonFileContext<Book>();
+        _memberFileContext = new JsonFileContext<Member>();
 
         // Initialize repositories and services
         MemberService = InitializeMemberService(_testFilePathForMembers);
@@ -35,23 +44,27 @@ public class BorrowingTransactionServiceFixture : IDisposable
 
     private BorrowingTransactionService InitializeBorrowingTransactionService(string filePath)
     {
-        var fileContext = new JsonFileContext<BorrowingTransaction>();
-        var repository = new BorrowingTransactionRepository(fileContext, filePath);
+        var repository = new BorrowingTransactionRepository(_borrowingTransactionFileContext, filePath);
         return new BorrowingTransactionService(repository, BookService, MemberService);
     }
 
     private BookService InitializeBookService(string filePath)
     {
-        var fileContext = new JsonFileContext<Book>();
-        var repository = new BookRepository(fileContext, filePath);
+        var repository = new BookRepository(_bookFileContext, filePath);
         return new BookService(repository);
     }
 
     private MemberService InitializeMemberService(string filePath)
     {
-        var fileContext = new JsonFileContext<Member>();
-        var repository = new MemberRepository(fileContext, filePath);
+        var repository = new MemberRepository(_memberFileContext, filePath);
         return new MemberService(repository);
+    }
+
+    public void ClearData()
+    {
+        _borrowingTransactionFileContext.WriteToFile(_testFilePathForBorrowingTransactions, new List<BorrowingTransaction>());
+        _bookFileContext.WriteToFile(_testFilePathForBooks, new List<Book>());
+        _memberFileContext.WriteToFile(_testFilePathForMembers, new List<Member>());
     }
 
     public void Dispose()
@@ -69,4 +82,3 @@ public class BorrowingTransactionServiceFixture : IDisposable
         }
     }
 }
-

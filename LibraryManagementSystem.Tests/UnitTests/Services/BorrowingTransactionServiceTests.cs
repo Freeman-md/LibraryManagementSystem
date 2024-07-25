@@ -15,6 +15,8 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
         _borrowingTransactionService = fixture.BorrowingTransactionService;
         _memberService = fixture.MemberService;
         _bookService = fixture.BookService;
+
+        fixture.ClearData();
     }
 
     [Fact]
@@ -103,7 +105,7 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
     }
 
     [Fact]
-    public void GetAllBorrowedBooks_ForAMember_WhenMemberHasNoBorrowedBooks_ShouldReturnAllBorrowedBooks()
+    public void GetAllBorrowedBooks_ForAMember_WhenMemberHasNoBorrowedBooks_ShouldReturnEmptyList()
     {
         // Arrange
         Member member = Helpers.CreateMember(email: $"{Guid.NewGuid()}@example.com");

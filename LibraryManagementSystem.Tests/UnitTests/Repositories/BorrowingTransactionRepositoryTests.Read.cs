@@ -65,7 +65,7 @@ public partial class BorrowingTransactionRepositoryTests
 
         _borrowingTransactionRepository.SaveBorrowingTransactions(borrowingTransactions);
 
-        List<BorrowingTransaction> createdBorrowingTransactions = _borrowingTransactionRepository.GetAllBorrowingTransactionsForMember(firstMember);
+        List<BorrowingTransaction> createdBorrowingTransactions = _borrowingTransactionRepository.GetAllBorrowingTransactionsForMember(firstMember.Id);
 
         Assert.NotNull(createdBorrowingTransactions);
         Assert.Equal(TOTAL_NUMBER_OF_BORROWING_TRANSACTIONS_TO_CREATE, createdBorrowingTransactions.Count);
@@ -94,8 +94,8 @@ public partial class BorrowingTransactionRepositoryTests
 
         _borrowingTransactionRepository.SaveBorrowingTransactions(borrowingTransactions);
 
-        List<BorrowingTransaction> createdBorrowingTransactionsForFirstMember = _borrowingTransactionRepository.GetAllBorrowingTransactionsForMember(firstMember);
-        List<BorrowingTransaction> nonExistingBorrowingTransactionsForSecondMember = _borrowingTransactionRepository.GetAllBorrowingTransactionsForMember(secondMember);
+        List<BorrowingTransaction> createdBorrowingTransactionsForFirstMember = _borrowingTransactionRepository.GetAllBorrowingTransactionsForMember(firstMember.Id);
+        List<BorrowingTransaction> nonExistingBorrowingTransactionsForSecondMember = _borrowingTransactionRepository.GetAllBorrowingTransactionsForMember(secondMember.Id);
 
         Assert.NotNull(createdBorrowingTransactionsForFirstMember);
         Assert.NotNull(nonExistingBorrowingTransactionsForSecondMember);

@@ -12,10 +12,10 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
         return _fileContext.ReadFromFile(_filePath);
     }
 
-    public List<BorrowingTransaction> GetAllBorrowingTransactionsForMember(Member member) {
+    public List<BorrowingTransaction> GetAllBorrowingTransactionsForMember(Guid memberId) {
         List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
 
-        return borrowingTransactions.Where((borrowingTransaction) => borrowingTransaction.Member.Id == member.Id).ToList();
+        return borrowingTransactions.Where((borrowingTransaction) => borrowingTransaction.Member.Id == memberId).ToList();
     }
 
     public BorrowingTransaction? GetBorrowingTransaction(Guid id) {
