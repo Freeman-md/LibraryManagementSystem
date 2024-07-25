@@ -5,16 +5,16 @@ using LibraryManagementSystem.Tests.TestHelpers;
 
 namespace LibraryManagementSystem.Tests;
 
-public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingTransactionServiceFixture>, IClassFixture<MemberServiceFixture>, IClassFixture<BookServiceFixture>
+public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingTransactionServiceFixture>
 {
     private readonly BorrowingTransactionService _borrowingTransactionService;
     private readonly MemberService _memberService;
     private readonly BookService _bookService;
-    public BorrowingTransactionServiceTests(BorrowingTransactionServiceFixture borrowingTransactionServiceFixture, MemberServiceFixture memberServiceFixture, BookServiceFixture bookServiceFixture)
+    public BorrowingTransactionServiceTests(BorrowingTransactionServiceFixture fixture)
     {
-        _borrowingTransactionService = borrowingTransactionServiceFixture.BorrowingTransactionService;
-        _memberService = memberServiceFixture.MemberService;
-        _bookService = bookServiceFixture.BookService;
+        _borrowingTransactionService = fixture.BorrowingTransactionService;
+        _memberService = fixture.MemberService;
+        _bookService = fixture.BookService;
     }
 
     [Fact]
