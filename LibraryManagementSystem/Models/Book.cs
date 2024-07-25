@@ -45,11 +45,11 @@ namespace LibraryManagementSystem.Models
             return Id.GetHashCode();
         }
 
-        public void markAsBorrowed() {
+        public void MarkAsBorrowed() {
             this.IsAvailable = false;
         }
 
-        public void markAsReturned() {
+        public void MarkAsReturned() {
             this.IsAvailable = true;
         }
     }

@@ -50,7 +50,7 @@ public class BorrowingTransactionService
 
         BorrowingTransaction borrowingTransaction = _borrowingTransactionRepository.CreateBorrowingTransaction(new BorrowingTransaction(book, member!, dueDate));
 
-        book.markAsBorrowed();
+        book.MarkAsBorrowed();
         _bookService.UpdateBook(book, bookId);
 
         return borrowingTransaction;
@@ -65,16 +65,17 @@ public class BorrowingTransactionService
     {
         Book book = GetAndValidateBookForReturning(bookId);
         Member member = GetAndValidateMember(memberId);
+        DateTime returnDate = DateTimeProvider.Now;
 
-        BorrowingTransaction? borrowingTransactionToUpdate = _borrowingTransactionRepository.GetBorrowingTransaction(bookId, memberId);
+        BorrowingTransaction borrowingTransaction = GetAndValidateBorrowingTransaction(bookId, memberId);
 
-        if (borrowingTransactionToUpdate == null) throw new ArgumentException($"Book was not borrowed by member");
+        CalculateFine(borrowingTransaction, returnDate);
 
-        borrowingTransactionToUpdate.ReturnDate = DateTime.Now;
+        borrowingTransaction.ReturnDate = returnDate;
 
-        BorrowingTransaction updatedBorrowingTransaction = _borrowingTransactionRepository.UpdateBorrowingTransaction(borrowingTransactionToUpdate, bookId, memberId);
+        BorrowingTransaction updatedBorrowingTransaction = _borrowingTransactionRepository.UpdateBorrowingTransaction(borrowingTransaction, bookId, memberId);
 
-        book.markAsReturned();
+        book.MarkAsReturned();
         _bookService.UpdateBook(book, bookId);
 
         return updatedBorrowingTransaction;
@@ -86,6 +87,18 @@ public class BorrowingTransactionService
         {
             throw new ArgumentOutOfRangeException(nameof(duration), "Duration must be a positive integer.");
         }
+    }
+
+    private BorrowingTransaction GetAndValidateBorrowingTransaction(Guid bookId, Guid memberId)
+    {
+        BorrowingTransaction? borrowingTransaction = _borrowingTransactionRepository.GetBorrowingTransaction(bookId, memberId);
+
+        if (borrowingTransaction == null)
+        {
+            throw new ArgumentException("Book has not been borrowed");
+        }
+
+        return borrowingTransaction;
     }
 
     private Book GetAndValidateBookForBorrowing(Guid bookId)
@@ -130,5 +143,22 @@ public class BorrowingTransactionService
         }
 
         return member;
+    }
+
+    private void CalculateFine(BorrowingTransaction borrowingTransaction, DateTime returnDate)
+    {
+        if (returnDate.Date > borrowingTransaction.DueDate.Date)
+        {
+            int overDueDays = (returnDate - borrowingTransaction.DueDate).Days;
+
+            if (overDueDays > BorrowingTransaction.MAX_OVERDUE_DAYS)
+            {
+                borrowingTransaction.Fine = BorrowingTransaction.MAX_FINE;
+            }
+            else if (overDueDays > BorrowingTransaction.GRACE_PERIOD_IN_DAYS)
+            {
+                borrowingTransaction.Fine = BorrowingTransaction.FINE_RATE_PER_DAY * overDueDays;
+            }
+        }
     }
 }
