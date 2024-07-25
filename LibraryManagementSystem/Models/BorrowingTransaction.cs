@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Net.WebSockets;
+using System.Text.Json.Serialization;
 using LibraryManagementSystem.Models;
 
 namespace LibraryManagementSystem;
@@ -13,6 +14,8 @@ public class BorrowingTransaction : Transaction
     public const int DEFAULT_BORROWING_DURATION_IN_DAYS = 7;
     public const double FINE_RATE_PER_DAY = 10.0;
     public const int GRACE_PERIOD_IN_DAYS = 3;
+    public const double MAX_FINE = 200.0;
+    public const int MAX_OVERDUE_DAYS = 14;
 
     [JsonConstructor]
     public BorrowingTransaction(Guid id, Book book, Member member, DateTime dueDate, double fine = 0.0, DateTime? returnDate = null)

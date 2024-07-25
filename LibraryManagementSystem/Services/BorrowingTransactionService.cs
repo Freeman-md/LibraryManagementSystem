@@ -18,7 +18,7 @@ public class BorrowingTransactionService
         throw new NotImplementedException();
     }
 
-    public BorrowingTransaction ReturnBook() {
+    public BorrowingTransaction ReturnBook(Guid bookId, Guid memberId) {
         throw new NotImplementedException();
     }
 
@@ -31,6 +31,10 @@ public class BorrowingTransactionService
     }
 
     public BorrowingTransaction GetBorrowedBook(Guid borrowingTransactionId) {
+        throw new NotImplementedException();
+    }
+
+    public BorrowingTransaction GetBorrowedBook(Book bookId, Member memberId) {
         throw new NotImplementedException();
     }
 }
