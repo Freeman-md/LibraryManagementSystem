@@ -21,11 +21,13 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
     public BorrowingTransaction? GetBorrowingTransaction(Guid id) {
         List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
 
-        return borrowingTransactions.FirstOrDefault((borrowingTransaction) => borrowingTransaction.Id == id);
+        return borrowingTransactions.FirstOrDefault((borrowingTransaction) => borrowingTransaction.Id == id && borrowingTransaction.ReturnDate == null);
     }
 
     public BorrowingTransaction? GetBorrowingTransaction(Guid bookId, Guid memberId) {
-        throw new NotImplementedException();
+        List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
+
+        return borrowingTransactions.FirstOrDefault((borrowingTransaction) => borrowingTransaction.Book.Id == bookId && borrowingTransaction.Member.Id == memberId && borrowingTransaction.ReturnDate == null);
     }
 
     public BorrowingTransaction CreateBorrowingTransaction(BorrowingTransaction borrowingTransaction) {
