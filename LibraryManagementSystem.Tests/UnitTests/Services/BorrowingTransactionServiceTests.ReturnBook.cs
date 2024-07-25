@@ -23,7 +23,7 @@ public partial class BorrowingTransactionServiceTests
 
         // Assert
         Assert.NotNull(returnedBorrowingTransaction.ReturnDate);
-        Assert.Equal(DateTime.Today, returnedBorrowingTransaction.ReturnDate);
+        Assert.Equal(DateTime.Today.Date, returnedBorrowingTransaction.ReturnDate?.Date);
         Assert.Equal(expectedFine, returnedBorrowingTransaction.Fine);
         Assert.True(availableBook?.IsAvailable);
         // Additional Assertions
@@ -129,7 +129,7 @@ public partial class BorrowingTransactionServiceTests
         // Arrange
         string randomEmail = $"{Guid.NewGuid()}@example.com";
         Member member = Helpers.CreateMember(email: randomEmail);
-        Book book = _bookService.AddBook(Helpers.CreateBook());
+        Book book = _bookService.AddBook(Helpers.CreateBook(isAvailable: false));
 
         ArgumentException ex = Assert.Throws<ArgumentException>(() => _borrowingTransactionService.ReturnBook(book.Id, member.Id));
         Assert.Equal("memberId", ex.ParamName);

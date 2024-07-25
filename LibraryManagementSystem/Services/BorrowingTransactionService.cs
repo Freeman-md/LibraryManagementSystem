@@ -48,12 +48,12 @@ public class BorrowingTransactionService
         Member? member = GetAndValidateMember(memberId);
         DateTime dueDate = DateTime.Now.AddDays(duration);
 
-        BorrowingTransaction borrowingTransaction = new BorrowingTransaction(book, member!, dueDate);
+        BorrowingTransaction borrowingTransaction = _borrowingTransactionRepository.CreateBorrowingTransaction(new BorrowingTransaction(book, member!, dueDate));
 
         book.markAsBorrowed();
-        _bookService.UpdateBook(book, book.Id);
+        _bookService.UpdateBook(book, bookId);
 
-        return _borrowingTransactionRepository.CreateBorrowingTransaction(borrowingTransaction);
+        return borrowingTransaction;
     }
 
     public BorrowingTransaction BorrowBook(Guid bookId, Guid memberId)
@@ -63,7 +63,21 @@ public class BorrowingTransactionService
 
     public BorrowingTransaction ReturnBook(Guid bookId, Guid memberId)
     {
-        throw new NotImplementedException();
+        Book book = GetAndValidateBookForReturning(bookId);
+        Member member = GetAndValidateMember(memberId);
+
+        BorrowingTransaction? borrowingTransactionToUpdate = _borrowingTransactionRepository.GetBorrowingTransaction(bookId, memberId);
+
+        if (borrowingTransactionToUpdate == null) throw new ArgumentException($"Book was not borrowed by member");
+
+        borrowingTransactionToUpdate.ReturnDate = DateTime.Now;
+
+        BorrowingTransaction updatedBorrowingTransaction = _borrowingTransactionRepository.UpdateBorrowingTransaction(borrowingTransactionToUpdate, bookId, memberId);
+
+        book.markAsReturned();
+        _bookService.UpdateBook(book, bookId);
+
+        return updatedBorrowingTransaction;
     }
 
     private void ValidateDuration(int duration)
@@ -86,6 +100,22 @@ public class BorrowingTransactionService
         {
             throw new InvalidOperationException("Book is not available for borrowing");
 
+        }
+
+        return book;
+    }
+
+    private Book GetAndValidateBookForReturning(Guid bookId)
+    {
+        Book? book = _bookService.GetBookById(bookId);
+        if (book == null)
+        {
+            throw new ArgumentException("Book does not exist.", nameof(bookId));
+        }
+
+        if (book.IsAvailable)
+        {
+            throw new InvalidOperationException("Book has not been borrowed and cannot be returned");
         }
 
         return book;

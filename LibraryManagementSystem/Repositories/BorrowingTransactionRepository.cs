@@ -55,10 +55,34 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
     {
         List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
 
-        BorrowingTransaction? borrowingTransactionToUpdate = borrowingTransactions.FirstOrDefault((borrowingTransaction) => borrowingTransaction.Id == id); ;
+        BorrowingTransaction? borrowingTransactionToUpdate = borrowingTransactions.Where(borrowingTransaction => borrowingTransaction.Id == id)
+        .OrderByDescending(borrowingTransaction => borrowingTransaction.TransactionDate)
+        .FirstOrDefault();
+
         if (borrowingTransactionToUpdate == null)
         {
             throw new ArgumentException("Borrowing Transaction does not exist.", nameof(id));
+        }
+
+        borrowingTransactionToUpdate.Fine = updatedBorrowingTransaction.Fine;
+        borrowingTransactionToUpdate.ReturnDate = updatedBorrowingTransaction.ReturnDate;
+
+        SaveBorrowingTransactions(borrowingTransactions);
+
+        return borrowingTransactionToUpdate;
+    }
+
+    public BorrowingTransaction UpdateBorrowingTransaction(BorrowingTransaction updatedBorrowingTransaction, Guid bookId, Guid memberId)
+    {
+        List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
+
+        BorrowingTransaction? borrowingTransactionToUpdate = borrowingTransactions.Where(borrowingTransaction => borrowingTransaction.Book.Id == bookId && borrowingTransaction.Member.Id == memberId)
+        .OrderByDescending(borrowingTransaction => borrowingTransaction.TransactionDate)
+        .FirstOrDefault();
+
+        if (borrowingTransactionToUpdate == null)
+        {
+            throw new ArgumentException("Borrowing Transaction does not exist.");
         }
 
         borrowingTransactionToUpdate.Fine = updatedBorrowingTransaction.Fine;
