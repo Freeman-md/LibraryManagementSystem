@@ -24,7 +24,7 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
         return borrowingTransactions.FirstOrDefault((borrowingTransaction) => borrowingTransaction.Id == id);
     }
 
-    public BorrowingTransaction? GetBorrowingTransaction(Book bookId, Member memberId) {
+    public BorrowingTransaction? GetBorrowingTransaction(Guid bookId, Guid memberId) {
         throw new NotImplementedException();
     }
 

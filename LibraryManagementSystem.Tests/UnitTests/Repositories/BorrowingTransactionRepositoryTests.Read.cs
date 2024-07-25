@@ -5,6 +5,8 @@ namespace LibraryManagementSystem.Tests;
 
 public partial class BorrowingTransactionRepositoryTests
 {
+    //TODO: At the moment, in the repository we're not checking if the member and book exists before creating a borrowing transaction as this check is done by the service. This can be implemented later in the repository using a TDD first approach
+
     [Fact]
     public void GetAllBorrowingTransactions_ShouldReturnAllBorrowingTransactions()
     {
@@ -53,7 +55,8 @@ public partial class BorrowingTransactionRepositoryTests
 
         Member firstMember = members.First();
 
-         foreach(Member member in members) {
+        foreach (Member member in members)
+        {
             for (int i = 0; i < TOTAL_NUMBER_OF_BORROWING_TRANSACTIONS_TO_CREATE; i++)
             {
                 borrowingTransactions.Add(Helpers.CreateBorrowingTransaction(member: member));
@@ -106,25 +109,51 @@ public partial class BorrowingTransactionRepositoryTests
     }
 
     [Fact]
-		public void GetBorrowingTransaction_ByExistingId_ShouldReturnBorrowingTransaction()
-		{
-            BorrowingTransaction borrowingTransaction = Helpers.CreateBorrowingTransaction();
-			_borrowingTransactionRepository.CreateBorrowingTransaction(borrowingTransaction);
+    public void GetBorrowingTransaction_ByExistingId_ShouldReturnBorrowingTransaction()
+    {
+        BorrowingTransaction borrowingTransaction = Helpers.CreateBorrowingTransaction();
+        _borrowingTransactionRepository.CreateBorrowingTransaction(borrowingTransaction);
 
-			BorrowingTransaction? foundBorrowingTransaction = _borrowingTransactionRepository.GetBorrowingTransaction(borrowingTransaction.Id);
+        BorrowingTransaction? foundBorrowingTransaction = _borrowingTransactionRepository.GetBorrowingTransaction(borrowingTransaction.Id);
 
-			Assert.NotNull(foundBorrowingTransaction);
-			Assert.Equal(foundBorrowingTransaction.Book.Id, borrowingTransaction.Book.Id);
-            Assert.Equal(foundBorrowingTransaction.Member.Email, borrowingTransaction.Member.Email);
-        }
+        Assert.NotNull(foundBorrowingTransaction);
+        Assert.Equal(foundBorrowingTransaction.Book.Id, borrowingTransaction.Book.Id);
+        Assert.Equal(foundBorrowingTransaction.Member.Email, borrowingTransaction.Member.Email);
+    }
 
-		[Fact]
-		public void GetBorrowingTransaction_WhenBorrowingTransactionDoesNotExist_ShouldReturnNull()
-		{
-			Guid id = Guid.NewGuid();
+    [Fact]
+    public void GetBorrowingTransaction_ByBookIdAndMemberId_ShouldReturnBorrowingTransaction()
+    {
+        Member member = Helpers.CreateMember($"user{Guid.NewGuid()}@example.com");
+        Book book = Helpers.CreateBook();
+        BorrowingTransaction borrowingTransaction = Helpers.CreateBorrowingTransaction(book: book, member: member);
+        _borrowingTransactionRepository.CreateBorrowingTransaction(borrowingTransaction);
 
-            BorrowingTransaction? nullBorrowingTransaction = _borrowingTransactionRepository.GetBorrowingTransaction(id);
+        BorrowingTransaction? foundBorrowingTransaction = _borrowingTransactionRepository.GetBorrowingTransaction(book.Id, member.Id);
 
-            Assert.Null(nullBorrowingTransaction);
-        }
+        Assert.NotNull(foundBorrowingTransaction);
+        Assert.Equal(foundBorrowingTransaction.Book.Id, borrowingTransaction.Book.Id);
+        Assert.Equal(foundBorrowingTransaction.Member.Email, borrowingTransaction.Member.Email);
+    }
+
+    [Fact]
+    public void GetBorrowingTransaction_WhenBorrowingTransactionDoesNotExist_ShouldReturnNull()
+    {
+        Guid id = Guid.NewGuid();
+
+        BorrowingTransaction? nullBorrowingTransaction = _borrowingTransactionRepository.GetBorrowingTransaction(id);
+
+        Assert.Null(nullBorrowingTransaction);
+    }
+
+    [Fact]
+    public void GetBorrowingTransaction_ByBookIdAndMemberId_WhenBorrowingTransactionDoesNotExist_ShouldReturnNull()
+    {
+        Member member = Helpers.CreateMember($"user{Guid.NewGuid()}@example.com");
+        Book book = Helpers.CreateBook();
+
+        BorrowingTransaction? nullBorrowingTransaction = _borrowingTransactionRepository.GetBorrowingTransaction(book.Id, member.Id);
+
+        Assert.Null(nullBorrowingTransaction);
+    }
 }
