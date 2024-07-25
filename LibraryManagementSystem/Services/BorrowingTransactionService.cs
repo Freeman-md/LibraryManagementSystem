@@ -46,7 +46,7 @@ public class BorrowingTransactionService
         throw new NotImplementedException();
     }
 
-    public BorrowingTransaction GetBorrowedBook(Book bookId, Member memberId) {
+    public BorrowingTransaction GetBorrowedBook(Guid bookId, Guid memberId) {
         throw new NotImplementedException();
     }
 }

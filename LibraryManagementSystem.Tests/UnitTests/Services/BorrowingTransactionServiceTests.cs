@@ -31,11 +31,13 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
         };
         int duration_in_days = 7;
 
-        foreach (Book book in books) {
+        foreach (Book book in books)
+        {
             _bookService.AddBook(book);
         }
 
-        foreach (Member member in members) {
+        foreach (Member member in members)
+        {
             _memberService.RegisterMember(member);
         }
 
@@ -70,14 +72,15 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
         // Arrange
         Member member = Helpers.CreateMember(email: $"{Guid.NewGuid()}@example.com");
         _memberService.RegisterMember(member);
-        
+
         List<Book> books = new List<Book>() {
             Helpers.CreateBook(),
             Helpers.CreateBook(),
         };
         int duration_in_days = 7;
 
-        foreach (Book book in books) {
+        foreach (Book book in books)
+        {
             _bookService.AddBook(book);
         }
 
@@ -125,38 +128,62 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
     }
 
     [Fact]
-        public void GetBorrowedBook_WhenBorrowingTransactionIdIsValid_ShouldReturnBorrowingTransaction()
-        {
-            // Arrange
-            var randomEmail = $"user{Guid.NewGuid()}@example.com";
-            Member member = _memberService.RegisterMember(Helpers.CreateMember(email: randomEmail));
-            Book book = _bookService.AddBook(Helpers.CreateBook());
-            int duration_in_days = 7;
+    public void GetBorrowedBook_ByTransactionId_ShouldReturnBorrowingTransaction()
+    {
+        // Arrange
+        var randomEmail = $"user{Guid.NewGuid()}@example.com";
+        Member member = _memberService.RegisterMember(Helpers.CreateMember(email: randomEmail));
+        Book book = _bookService.AddBook(Helpers.CreateBook());
+        int duration_in_days = 7;
 
-            BorrowingTransaction borrowingTransaction = _borrowingTransactionService.BorrowBook(book.Id, member.Id, duration_in_days);
+        BorrowingTransaction borrowingTransaction = _borrowingTransactionService.BorrowBook(book.Id, member.Id, duration_in_days);
 
-            // Act
-            BorrowingTransaction? foundBorrowingTransaction = _borrowingTransactionService.GetBorrowedBook(borrowingTransaction.Id);
+        // Act
+        BorrowingTransaction? foundBorrowingTransaction = _borrowingTransactionService.GetBorrowedBook(borrowingTransaction.Id);
 
-            // Assert
-            Assert.NotNull(foundBorrowingTransaction);
-            Assert.Equal(borrowingTransaction.Id, foundBorrowingTransaction.Id);
-            Assert.Equal(book.Id, foundBorrowingTransaction.Book.Id);
-            Assert.Equal(member.Id, foundBorrowingTransaction.Member.Id);
-            Assert.Equal(borrowingTransaction.TransactionDate, foundBorrowingTransaction.TransactionDate);
-            Assert.Equal(borrowingTransaction.DueDate, foundBorrowingTransaction.DueDate);
-            Assert.Equal(duration_in_days, (foundBorrowingTransaction.DueDate - foundBorrowingTransaction.TransactionDate).Days);
-        }
+        // Assert
+        Assert.NotNull(foundBorrowingTransaction);
+        Assert.Equal(borrowingTransaction.Id, foundBorrowingTransaction.Id);
+        Assert.Equal(book.Id, foundBorrowingTransaction.Book.Id);
+        Assert.Equal(member.Id, foundBorrowingTransaction.Member.Id);
+        Assert.Equal(borrowingTransaction.TransactionDate, foundBorrowingTransaction.TransactionDate);
+        Assert.Equal(borrowingTransaction.DueDate, foundBorrowingTransaction.DueDate);
+        Assert.Equal(duration_in_days, (foundBorrowingTransaction.DueDate - foundBorrowingTransaction.TransactionDate).Days);
+    }
 
-        [Fact]
-        public void GetBorrowedBook_WhenBorrowedBookDoesNotExist_ShouldReturnNull()
-        {
-            BorrowingTransaction borrowingTransaction = Helpers.CreateBorrowingTransaction();
+    [Fact]
+    public void GetBorrowedBook_ByBookIdAndMemberId_ShouldReturnBorrowingTransaction()
+    {
+        // Arrange
+        var randomEmail = $"user{Guid.NewGuid()}@example.com";
+        Member member = _memberService.RegisterMember(Helpers.CreateMember(email: randomEmail));
+        Book book = _bookService.AddBook(Helpers.CreateBook());
+        int duration_in_days = 7;
 
-            BorrowingTransaction? foundBorrowingTransaction = _borrowingTransactionService.GetBorrowedBook(borrowingTransaction.Id);
+        BorrowingTransaction borrowingTransaction = _borrowingTransactionService.BorrowBook(book.Id, member.Id, duration_in_days);
 
-            Assert.Null(foundBorrowingTransaction);
-        }
+        // Act
+        BorrowingTransaction? foundBorrowingTransaction = _borrowingTransactionService.GetBorrowedBook(book.Id, member.Id);
+
+        // Assert
+        Assert.NotNull(foundBorrowingTransaction);
+        Assert.Equal(borrowingTransaction.Id, foundBorrowingTransaction.Id);
+        Assert.Equal(book.Id, foundBorrowingTransaction.Book.Id);
+        Assert.Equal(member.Id, foundBorrowingTransaction.Member.Id);
+        Assert.Equal(borrowingTransaction.TransactionDate, foundBorrowingTransaction.TransactionDate);
+        Assert.Equal(borrowingTransaction.DueDate, foundBorrowingTransaction.DueDate);
+        Assert.Equal(duration_in_days, (foundBorrowingTransaction.DueDate - foundBorrowingTransaction.TransactionDate).Days);
+    }
+
+    [Fact]
+    public void GetBorrowedBook_WhenBorrowedBookDoesNotExist_ShouldReturnNull()
+    {
+        BorrowingTransaction borrowingTransaction = Helpers.CreateBorrowingTransaction();
+
+        BorrowingTransaction? foundBorrowingTransaction = _borrowingTransactionService.GetBorrowedBook(borrowingTransaction.Id);
+
+        Assert.Null(foundBorrowingTransaction);
+    }
 
 
 }
