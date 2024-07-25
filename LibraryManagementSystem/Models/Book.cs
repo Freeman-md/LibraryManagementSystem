@@ -44,5 +44,13 @@ namespace LibraryManagementSystem.Models
         {
             return Id.GetHashCode();
         }
+
+        public void markAsBorrowed() {
+            this.IsAvailable = false;
+        }
+
+        public void markAsReturned() {
+            this.IsAvailable = true;
+        }
     }
 }
