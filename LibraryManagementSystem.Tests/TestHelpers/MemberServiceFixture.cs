@@ -6,7 +6,7 @@ using LibraryManagementSystem.Services;
 
 namespace LibraryManagementSystem.Tests.TestHelpers
 {
-	public class MemberServiceFixture
+	public class MemberServiceFixture : IDisposable
 	{
 		public MemberService MemberService;
 		private readonly string _testFilePath;

@@ -1,12 +1,13 @@
 ﻿using System;
 using LibraryManagementSystem.Models;
+using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Tests.TestHelpers;
 
 namespace LibraryManagementSystem.Tests.UnitTests.Repositories
 {
     public class BookRepositoryTests : IClassFixture<BookRepositoryFixture>
     {
-        private readonly LibraryManagementSystem.Repositories.BookRepository _bookRepository;
+        private readonly BookRepository _bookRepository;
 
         public BookRepositoryTests(BookRepositoryFixture fixture)
         {
