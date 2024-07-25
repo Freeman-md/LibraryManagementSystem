@@ -8,29 +8,40 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
 {
     public BorrowingTransactionRepository(IFileContext<BorrowingTransaction> fileContext, string filePath = "borrowing-transactions.json") : base(fileContext, filePath) { }
 
-    public List<BorrowingTransaction> GetAllBorrowingTransactions() {
+    public List<BorrowingTransaction> GetAllBorrowingTransactions()
+    {
         return _fileContext.ReadFromFile(_filePath);
     }
 
-    public List<BorrowingTransaction> GetAllBorrowingTransactionsForMember(Guid memberId) {
+    public List<BorrowingTransaction> GetAllBorrowingTransactionsForMember(Guid memberId)
+    {
         List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
 
         return borrowingTransactions.Where((borrowingTransaction) => borrowingTransaction.Member.Id == memberId).ToList();
     }
 
-    public BorrowingTransaction? GetBorrowingTransaction(Guid id) {
+    public BorrowingTransaction? GetBorrowingTransaction(Guid id)
+    {
         List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
 
-        return borrowingTransactions.FirstOrDefault((borrowingTransaction) => borrowingTransaction.Id == id && borrowingTransaction.ReturnDate == null);
+        return borrowingTransactions
+        .Where(borrowingTransaction => borrowingTransaction.Id == id)
+        .OrderByDescending(borrowingTransaction => borrowingTransaction.TransactionDate)
+        .FirstOrDefault();
     }
 
-    public BorrowingTransaction? GetBorrowingTransaction(Guid bookId, Guid memberId) {
+    public BorrowingTransaction? GetBorrowingTransaction(Guid bookId, Guid memberId)
+    {
         List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
 
-        return borrowingTransactions.FirstOrDefault((borrowingTransaction) => borrowingTransaction.Book.Id == bookId && borrowingTransaction.Member.Id == memberId && borrowingTransaction.ReturnDate == null);
+        return borrowingTransactions
+        .Where(borrowingTransaction => borrowingTransaction.Book.Id == bookId && borrowingTransaction.Member.Id == memberId)
+        .OrderByDescending(borrowingTransaction => borrowingTransaction.TransactionDate)
+        .FirstOrDefault();
     }
 
-    public BorrowingTransaction CreateBorrowingTransaction(BorrowingTransaction borrowingTransaction) {
+    public BorrowingTransaction CreateBorrowingTransaction(BorrowingTransaction borrowingTransaction)
+    {
         List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
 
         borrowingTransactions.Add(borrowingTransaction);
@@ -40,11 +51,13 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
         return borrowingTransaction;
     }
 
-    public BorrowingTransaction UpdateBorrowingTransaction(BorrowingTransaction updatedBorrowingTransaction, Guid id) {
+    public BorrowingTransaction UpdateBorrowingTransaction(BorrowingTransaction updatedBorrowingTransaction, Guid id)
+    {
         List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
 
-        BorrowingTransaction? borrowingTransactionToUpdate = borrowingTransactions.FirstOrDefault((borrowingTransaction) => borrowingTransaction.Id == id);;
-        if (borrowingTransactionToUpdate == null) {
+        BorrowingTransaction? borrowingTransactionToUpdate = borrowingTransactions.FirstOrDefault((borrowingTransaction) => borrowingTransaction.Id == id); ;
+        if (borrowingTransactionToUpdate == null)
+        {
             throw new ArgumentException("Borrowing Transaction does not exist.", nameof(id));
         }
 
@@ -56,9 +69,10 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
         return borrowingTransactionToUpdate;
     }
 
-    public void DeleteBorrowingTransaction(Guid id) {
+    public void DeleteBorrowingTransaction(Guid id)
+    {
         List<BorrowingTransaction> borrowingTransactions = GetAllBorrowingTransactions();
-        BorrowingTransaction? borrowingTransactionToDelete  = GetBorrowingTransaction(id);
+        BorrowingTransaction? borrowingTransactionToDelete = GetBorrowingTransaction(id);
 
         if (borrowingTransactionToDelete == null) throw new ArgumentException("Borrowing Transaction does not exist.", nameof(id));
 
@@ -67,7 +81,8 @@ public class BorrowingTransactionRepository : BaseRepository<BorrowingTransactio
         SaveBorrowingTransactions(borrowingTransactions);
     }
 
-    public void SaveBorrowingTransactions(List<BorrowingTransaction> borrowingTransactions) {
+    public void SaveBorrowingTransactions(List<BorrowingTransaction> borrowingTransactions)
+    {
         _fileContext.WriteToFile(_filePath, borrowingTransactions);
     }
 }

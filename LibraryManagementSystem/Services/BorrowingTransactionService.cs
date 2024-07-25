@@ -46,11 +46,11 @@ public class BorrowingTransactionService
         return _borrowingTransactionRepository.GetAllBorrowingTransactionsForMember(memberId);
     }
 
-    public BorrowingTransaction GetBorrowedBook(Guid borrowingTransactionId) {
-        throw new NotImplementedException();
+    public BorrowingTransaction? GetBorrowedBook(Guid borrowingTransactionId) {
+        return _borrowingTransactionRepository.GetBorrowingTransaction(borrowingTransactionId);
     }
 
-    public BorrowingTransaction GetBorrowedBook(Guid bookId, Guid memberId) {
-        throw new NotImplementedException();
+    public BorrowingTransaction? GetBorrowedBook(Guid bookId, Guid memberId) {
+        return _borrowingTransactionRepository.GetBorrowingTransaction(bookId, memberId);
     }
 }

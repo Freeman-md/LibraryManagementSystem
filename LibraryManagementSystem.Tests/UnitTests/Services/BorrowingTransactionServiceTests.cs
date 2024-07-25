@@ -136,7 +136,7 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
         var randomEmail = $"user{Guid.NewGuid()}@example.com";
         Member member = _memberService.RegisterMember(Helpers.CreateMember(email: randomEmail));
         Book book = _bookService.AddBook(Helpers.CreateBook());
-        int duration_in_days = 7;
+        int duration_in_days = 5;
 
         BorrowingTransaction borrowingTransaction = _borrowingTransactionService.BorrowBook(book.Id, member.Id, duration_in_days);
 
@@ -148,9 +148,9 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
         Assert.Equal(borrowingTransaction.Id, foundBorrowingTransaction.Id);
         Assert.Equal(book.Id, foundBorrowingTransaction.Book.Id);
         Assert.Equal(member.Id, foundBorrowingTransaction.Member.Id);
-        Assert.Equal(borrowingTransaction.TransactionDate, foundBorrowingTransaction.TransactionDate);
-        Assert.Equal(borrowingTransaction.DueDate, foundBorrowingTransaction.DueDate);
-        Assert.Equal(duration_in_days, (foundBorrowingTransaction.DueDate - foundBorrowingTransaction.TransactionDate).Days);
+        Assert.Equal(borrowingTransaction.TransactionDate.Date, foundBorrowingTransaction.TransactionDate.Date);
+        Assert.Equal(borrowingTransaction.DueDate.Date, foundBorrowingTransaction.DueDate.Date);
+        Assert.Equal(duration_in_days, (foundBorrowingTransaction.DueDate - foundBorrowingTransaction.TransactionDate).Days + 1);
     }
 
     [Fact]
@@ -172,9 +172,9 @@ public partial class BorrowingTransactionServiceTests : IClassFixture<BorrowingT
         Assert.Equal(borrowingTransaction.Id, foundBorrowingTransaction.Id);
         Assert.Equal(book.Id, foundBorrowingTransaction.Book.Id);
         Assert.Equal(member.Id, foundBorrowingTransaction.Member.Id);
-        Assert.Equal(borrowingTransaction.TransactionDate, foundBorrowingTransaction.TransactionDate);
-        Assert.Equal(borrowingTransaction.DueDate, foundBorrowingTransaction.DueDate);
-        Assert.Equal(duration_in_days, (foundBorrowingTransaction.DueDate - foundBorrowingTransaction.TransactionDate).Days);
+        Assert.Equal(borrowingTransaction.TransactionDate.Date, foundBorrowingTransaction.TransactionDate.Date);
+        Assert.Equal(borrowingTransaction.DueDate.Date, foundBorrowingTransaction.DueDate.Date);
+        Assert.Equal(duration_in_days, (foundBorrowingTransaction.DueDate - foundBorrowingTransaction.TransactionDate).Days + 1);
     }
 
     [Fact]

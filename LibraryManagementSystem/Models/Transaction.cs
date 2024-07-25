@@ -15,7 +15,7 @@ namespace LibraryManagementSystem.Models
             Id = id == Guid.Empty ? Guid.NewGuid() : id;
             Book = book;
 			Member = member;
-			TransactionDate = transactionDate;
+            TransactionDate = transactionDate == default(DateTime) ? DateTime.Now : transactionDate;
 		}
 
 		public Transaction(Book book, Member member) : this(Guid.NewGuid(), book, member) {}
