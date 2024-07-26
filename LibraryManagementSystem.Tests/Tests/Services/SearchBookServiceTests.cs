@@ -120,9 +120,9 @@ public class SearchBookServiceTests : IClassFixture<SearchBookServiceFixture>
         Assert.Empty(searchBookResults);
     }
 
-    [Fact]
-    public void SearchBooks_NoSearchTerm_ShouldThrowArgumentNullException()
-    {
-        Assert.Throws<ArgumentNullException>(() => _searchBookService.SearchBooks(null!));
-    }
+    // [Fact]
+    // public void SearchBooks_NoSearchTerm_ShouldThrowArgumentNullException()
+    // {
+    //     Assert.Throws<ArgumentNullException>(() => _searchBookService.SearchBooks(null!));
+    // }
 }

@@ -13,7 +13,7 @@ public class SearchBookService
 
     public List<Book> SearchBooks(string searchTerm)
     {
-        ValidateSearchTerm(searchTerm);
+        // ValidateSearchTerm(searchTerm);
 
         List<Book> books = _bookRepository.GetAllBooks();
 

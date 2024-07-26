@@ -61,9 +61,26 @@ public class SearchController
             Console.WriteLine("\nSearch Results:");
             Console.ResetColor();
 
-            foreach (var book in searchResults)
+            for (int i = 0; i < searchResults.Count; i++)
             {
+                var book = searchResults[i];
+                Console.Write($"{i + 1}. ");
                 book.PrintBookDetails();
+            }
+
+            Console.WriteLine("\nSelect a book number to perform operations on it or press Enter to return to the main menu:");
+            string? input = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                Program.ShowMainMenu();
+                return;
+            }
+            
+            if (int.TryParse(input, out int bookNumber) && bookNumber >= 1 && bookNumber <= searchResults.Count)
+            {
+                var selectedBook = searchResults[bookNumber - 1];
+                BookController.ManageSelectedBook(selectedBook);
             }
         }
     }

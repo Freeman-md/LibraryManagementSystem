@@ -259,4 +259,80 @@ public class BookController
         }
     }
 
+    internal static void ManageSelectedBook(Book selectedBook)
+    {
+         Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("\nManage Selected Book:");
+        Console.WriteLine("1. Edit Book");
+        Console.WriteLine("2. Delete Book");
+        Console.WriteLine("3. Back to Search Results");
+
+        Console.Write("\nSelect an option: ");
+        string? choice = Console.ReadLine();
+
+        switch (choice)
+        {
+            case "1":
+                EditSelectedBook(selectedBook);
+                break;
+            case "2":
+                DeleteSelectedBook(selectedBook);
+                break;
+            case "3":
+                return;
+            default:
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid option. Please try again.");
+                Console.ResetColor();
+
+                ManageSelectedBook(selectedBook);
+                break;
+        }
+    }
+
+    private static void EditSelectedBook(Book bookToEdit)
+    {
+        try
+        {
+            string title = InputValidator.GetValidInput($"Enter new Book Title (current: {bookToEdit.Title}): ", "Title cannot be empty.", bookToEdit.Title);
+            string author = InputValidator.GetValidInput($"Enter new Book Author (current: {bookToEdit.Author}): ", "Author cannot be empty.", bookToEdit.Author);
+            string genre = InputValidator.GetValidInput($"Enter new Book Genre (current: {bookToEdit.Genre}): ", "Genre cannot be empty.", bookToEdit.Genre);
+            string isbn = InputValidator.GetValidInput($"Enter new Book ISBN (current: {bookToEdit.ISBN}): ", "ISBN cannot be empty.", bookToEdit.ISBN);
+
+            var updatedBook = new Book(bookToEdit.Id, title, author, genre, isbn, bookToEdit.PublishDate, bookToEdit.IsAvailable);
+            _bookService.UpdateBook(updatedBook, bookToEdit.Id);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Book edited successfully.");
+            Console.ResetColor();
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("An error occurred while editing the book: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(ex.Message);
+            Console.ResetColor();
+        }
+    }
+
+    private static void DeleteSelectedBook(Book bookToDelete)
+    {
+        try
+        {
+            _bookService.DeleteBook(bookToDelete.Id);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Book deleted successfully.");
+            Console.ResetColor();
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("An error occurred while deleting the book: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(ex.Message);
+            Console.ResetColor();
+        }
+    }
 }
