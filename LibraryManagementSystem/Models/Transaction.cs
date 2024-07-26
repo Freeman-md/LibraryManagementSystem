@@ -20,6 +20,19 @@ namespace LibraryManagementSystem.Models
 
 		public Transaction(Book book, Member member) : this(Guid.NewGuid(), book, member) {}
 
+        public virtual void PrintDetails()
+        {
+            ConsoleHelper.PrintColoredText("Transaction ID: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{Id}, ", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("Book Title: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{Book.Title}, ", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("Member Name: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{Member.Name}, ", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("Transaction Date: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{TransactionDate.ToShortDateString()}", ConsoleColor.White);
+            Console.WriteLine();
+        }
+
 		public override bool Equals(object? obj)
         {
             if (obj == null || GetType() != obj.GetType())
