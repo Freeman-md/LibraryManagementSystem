@@ -88,114 +88,165 @@ public class MemberController
     }
 
     private static void EditMember()
-{
-    List<Member> members = new List<Member>();
-
-    try
     {
-        members = RetrieveAndDisplayMembers();
+        List<Member> members = new List<Member>();
 
-        if (members.Count == 0)
+        try
         {
-            ShowMenu();
-            return;
-        }
+            members = RetrieveAndDisplayMembers();
 
-        Console.WriteLine("\nEnter the number of the member you want to edit:");
-        if (!int.TryParse(Console.ReadLine(), out int memberNumber) || memberNumber < 1 || memberNumber > members.Count)
+            if (members.Count == 0)
+            {
+                ShowMenu();
+                return;
+            }
+
+            Console.WriteLine("\nEnter the number of the member you want to edit:");
+            if (!int.TryParse(Console.ReadLine(), out int memberNumber) || memberNumber < 1 || memberNumber > members.Count)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid member number.");
+                Console.ResetColor();
+                ShowMenu();
+                return;
+            }
+
+            var memberToEdit = members[memberNumber - 1];
+
+            string name = InputValidator.GetValidInput($"Enter new Member Name (current: {memberToEdit.Name}) or press Enter to keep current: ", "Name cannot be empty.", memberToEdit.Name);
+            string email = InputValidator.GetValidInput($"Enter new Member Email (current: {memberToEdit.Email}) or press Enter to keep current: ", "Email cannot be empty.", memberToEdit.Email);
+            string phoneNumber = InputValidator.GetValidInput($"Enter new Member Phone Number (current: {memberToEdit.PhoneNumber}) or press Enter to keep current: ", "Phone number cannot be empty.", memberToEdit.PhoneNumber);
+            string address = InputValidator.GetValidInput($"Enter new Member Address (current: {memberToEdit.Address}) or press Enter to keep current: ", "Address cannot be empty.", memberToEdit.Address);
+
+            var updatedMember = new Member(memberToEdit.Id, name, email, phoneNumber, address);
+            _memberService.UpdateMember(updatedMember, memberToEdit.Id);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Member edited successfully.");
+            Console.ResetColor();
+        }
+        catch (Exception ex)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Invalid member number.");
+            Console.Write("An error occurred while editing the member: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(ex.Message);
             Console.ResetColor();
-            ShowMenu();
-            return;
         }
-
-        var memberToEdit = members[memberNumber - 1];
-
-        string name = InputValidator.GetValidInput($"Enter new Member Name (current: {memberToEdit.Name}) or press Enter to keep current: ", "Name cannot be empty.", memberToEdit.Name);
-        string email = InputValidator.GetValidInput($"Enter new Member Email (current: {memberToEdit.Email}) or press Enter to keep current: ", "Email cannot be empty.", memberToEdit.Email);
-        string phoneNumber = InputValidator.GetValidInput($"Enter new Member Phone Number (current: {memberToEdit.PhoneNumber}) or press Enter to keep current: ", "Phone number cannot be empty.", memberToEdit.PhoneNumber);
-        string address = InputValidator.GetValidInput($"Enter new Member Address (current: {memberToEdit.Address}) or press Enter to keep current: ", "Address cannot be empty.", memberToEdit.Address);
-
-        var updatedMember = new Member(memberToEdit.Id, name, email, phoneNumber, address);
-        _memberService.UpdateMember(updatedMember, memberToEdit.Id);
-
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("Member edited successfully.");
-        Console.ResetColor();
+        finally
+        {
+            ShowMenu();
+        }
     }
-    catch (Exception ex)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("An error occurred while editing the member: ");
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine(ex.Message);
-        Console.ResetColor();
-    }
-    finally
-    {
-        ShowMenu();
-    }
-}
 
 
     private static void DeleteMember()
     {
+        List<Member> members = new List<Member>();
 
+        try
+        {
+            members = RetrieveAndDisplayMembers();
+
+            if (members.Count == 0)
+            {
+                ShowMenu();
+                return;
+            }
+
+            Console.WriteLine("\nEnter the number of the member you want to delete:");
+            if (!int.TryParse(Console.ReadLine(), out int memberNumber) || memberNumber < 1 || memberNumber > members.Count)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid member number.");
+                Console.ResetColor();
+                ShowMenu();
+                return;
+            }
+
+            var memberToDelete = members[memberNumber - 1];
+
+            Console.WriteLine($"Are you sure you want to delete the member: {memberToDelete.Name}? (yes/no)");
+            string? confirmation = Console.ReadLine()?.ToLower();
+
+            if (confirmation == "yes")
+            {
+                _memberService.DeleteMember(memberToDelete.Id);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Member deleted successfully.");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine("Member deletion cancelled.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("An error occurred while deleting the member: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(ex.Message);
+            Console.ResetColor();
+        }
+        finally
+        {
+            ShowMenu();
+        }
     }
 
-    private static void ViewAllMembers()
-{
-    List<Member> members = new List<Member>();
 
-    try
+    private static void ViewAllMembers()
     {
-        members = RetrieveAndDisplayMembers();
+        List<Member> members = new List<Member>();
+
+        try
+        {
+            members = RetrieveAndDisplayMembers();
+
+            if (members.Count == 0)
+            {
+                ShowMenu();
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("An error occurred while retrieving the list of members: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(ex.Message);
+            Console.ResetColor();
+        }
+        finally
+        {
+            ShowMenu();
+        }
+    }
+
+    private static List<Member> RetrieveAndDisplayMembers()
+    {
+        var members = _memberService.GetAllMembers();
 
         if (members.Count == 0)
         {
-            ShowMenu();
-            return;
+            Console.WriteLine("No members available.");
+            return members;
         }
-    }
-    catch (Exception ex)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("An error occurred while retrieving the list of members: ");
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine(ex.Message);
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("\nList of Members:");
         Console.ResetColor();
-    }
-    finally
-    {
-        ShowMenu();
-    }
-}
 
-private static List<Member> RetrieveAndDisplayMembers()
-{
-    var members = _memberService.GetAllMembers();
+        for (int i = 0; i < members.Count; i++)
+        {
+            var member = members[i];
+            Console.Write($"{i + 1}. ");
+            member.PrintMemberDetails();
+        }
 
-    if (members.Count == 0)
-    {
-        Console.WriteLine("No members available.");
         return members;
     }
-
-    Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("\nList of Members:");
-    Console.ResetColor();
-
-    for (int i = 0; i < members.Count; i++)
-    {
-        var member = members[i];
-        Console.Write($"{i + 1}. ");
-        member.PrintMemberDetails();
-    }
-
-    return members;
-}
 
     private static void DisplayTotalMembersCount()
     {
