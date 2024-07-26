@@ -30,7 +30,8 @@ Features
 -   **Return Book**: Process the return of borrowed books and calculate any overdue fines.
 -   **View All Borrowed Books**: Display a list of all books currently borrowed.
 
-### Preview of Using the App via Console
+### Preview of Using the App via Console 
+- Click the image to watch the video
 
 [![Watch the video](console_preview.png)](https://youtu.be/mtX6V1AE4pk)
 
