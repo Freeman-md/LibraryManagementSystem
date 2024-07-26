@@ -109,7 +109,7 @@ public class BookController
                 return;
             }
 
-            var bookToEdit = _bookService.GetAllBooks()[bookNumber - 1];
+            var bookToEdit = books[bookNumber - 1];
 
             string title = InputValidator.GetValidInput($"Enter new Book Title (current: {bookToEdit.Title}) or press Enter to keep current: ", "Title cannot be empty.", bookToEdit.Title);
             string author = InputValidator.GetValidInput($"Enter new Book Author (current: {bookToEdit.Author}) or press Enter to keep current: ", "Author cannot be empty.", bookToEdit.Author);
@@ -140,8 +140,59 @@ public class BookController
 
     private static void DeleteBook()
     {
+        List<Book> books = new List<Book>();
 
+        try
+        {
+            books = RetrieveAndDisplayBooks();
+
+            if (books.Count == 0)
+            {
+                ShowMenu();
+                return;
+            }
+
+            Console.WriteLine("\nEnter the number of the book you want to delete:");
+            if (!int.TryParse(Console.ReadLine(), out int bookNumber) || bookNumber < 1 || bookNumber > books.Count)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid book number.");
+                Console.ResetColor();
+                ShowMenu();
+                return;
+            }
+
+            var bookToDelete = books[bookNumber - 1];
+
+            Console.WriteLine($"Are you sure you want to delete the book: {bookToDelete.Title}? (yes/no)");
+            string? confirmation = Console.ReadLine()?.ToLower();
+
+            if (confirmation == "yes")
+            {
+                _bookService.DeleteBook(bookToDelete.Id);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Book deleted successfully.");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine("Book deletion cancelled.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("An error occurred while deleting the book: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(ex.Message);
+            Console.ResetColor();
+        }
+        finally
+        {
+            ShowMenu();
+        }
     }
+
 
     private static void ViewAllBooks()
     {
