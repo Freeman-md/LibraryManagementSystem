@@ -12,6 +12,8 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
         public BookServiceTests(BookServiceFixture fixture)
         {
             _bookService = fixture.BookService;
+
+            fixture.ClearData();
         }
 
         private static Book CreateBook(

@@ -19,6 +19,34 @@ namespace LibraryManagementSystem.Tests.UnitTests.Services
 			Assert.NotEmpty(books);
         }
 
+        [Fact]
+		public void GetAllAvailableBooks_ShouldReturnCollectionOfBooks()
+		{
+			for (int i = 1; i <= 10; i++)
+			{
+				_bookService.AddBook(CreateBook(isAvailable: true));
+            }
+
+			List<Book> books = _bookService.GetAllAvailableBooks();
+
+			Assert.IsType<List<Book>>(books);
+			Assert.NotEmpty(books);
+        }
+
+        [Fact]
+		public void GetAllAvailableBooks_WhenThereAreNone_ShouldReturnEmptyCollection()
+		{
+			for (int i = 1; i <= 10; i++)
+			{
+				_bookService.AddBook(CreateBook(isAvailable: false));
+            }
+
+			List<Book> books = _bookService.GetAllAvailableBooks();
+
+			Assert.IsType<List<Book>>(books);
+			Assert.Empty(books);
+        }
+
 		[Fact]
         public void GetBook_WhenBookIdIsValid_ShouldReturnBook()
         {

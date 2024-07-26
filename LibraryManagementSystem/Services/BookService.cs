@@ -33,6 +33,10 @@ namespace LibraryManagementSystem.Services
             return _bookRepository.GetAllBooks();
         }
 
+        public List<Book> GetAllAvailableBooks() {
+            return _bookRepository.GetAllBooks().Where(book => book.IsAvailable).ToList();
+        }
+
 		public Book? GetBookById(Guid id)
 		{
             return _bookRepository.GetBookById(id);
