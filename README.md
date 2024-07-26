@@ -32,7 +32,7 @@ Features
 
 ### Preview of Using the App via Console
 
-[![Watch the video](console_preview.png)](https://www.mediafire.com/file/5cp985m60sr25o6/Screen_Recording_2024-07-26_at_3.54.08%25E2%2580%25AFPM.mov/file)
+[![Watch the video](console_preview.png)](https://youtu.be/mtX6V1AE4pk)
 
 
 
