@@ -1,50 +1,70 @@
-﻿namespace LibraryManagementSystem;
+﻿using LibraryManagementSystem.FileContexts;
+using LibraryManagementSystem.Models;
+using LibraryManagementSystem.Repositories;
+
+namespace LibraryManagementSystem;
 
 public class SearchController
 {
-    public static void ShowMenu() {
+    private readonly static SearchBookService _searchBookService;
+
+    static SearchController()
+    {
+        _searchBookService = new SearchBookService(new BookRepository(new JsonFileContext<Book>()));
+    }
+
+    public static void ShowMenu()
+    {
+        BookController.DisplayTotalBooksCount();
+
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("\nSearch Books:");
-        Console.WriteLine("1. Search by Title");
-        Console.WriteLine("2. Search by Author");
-        Console.WriteLine("3. Search by Genre");
-        Console.WriteLine("4. Back to Main Menu");
+        Console.WriteLine("\nSearch Books");
+        Console.ResetColor();
+        PerformSearch();
+    }
 
-        Console.Write("\nSelect an option: ");
-        string? choice = Console.ReadLine();
+    private static void PerformSearch()
+    {
+        Console.Write("Enter the book title, author, or genre to search for: ");
+        string searchTerm = Console.ReadLine() ?? string.Empty;
 
-        switch(choice) {
-            case "1": 
-                SearchByTitle();
-                break;
-            case "2":
-                SearchByAuthor();
-                break;
-            case "3": 
-                SearchByGenre();
-                break;
-            case "4":
-                Program.ShowMainMenu();
-                break;
-            default:
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Invalid option. Please try again.");
-                Console.ResetColor();
-
-                ShowMenu();
-                break;
+        try
+        {
+            var searchResults = _searchBookService.SearchBooks(searchTerm);
+            DisplaySearchResults(searchResults);
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("An error occurred while searching for books: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(ex.Message);
+            Console.ResetColor();
+        }
+        finally
+        {
+            ShowMenu();
         }
     }
 
-    private static void SearchByTitle() {
+    private static void DisplaySearchResults(List<Book> searchResults)
+    {
+        if (searchResults.Count == 0)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No books found matching the search criteria.");
+            Console.ResetColor();
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\nSearch Results:");
+            Console.ResetColor();
 
-    }
-
-    private static void SearchByAuthor() {
-        
-    }
-
-    private static void SearchByGenre() {
-        
+            foreach (var book in searchResults)
+            {
+                book.PrintBookDetails();
+            }
+        }
     }
 }

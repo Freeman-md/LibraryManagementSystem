@@ -240,7 +240,7 @@ public class BookController
     }
 
 
-    private static void DisplayTotalBooksCount()
+    public static void DisplayTotalBooksCount()
     {
         try
         {
