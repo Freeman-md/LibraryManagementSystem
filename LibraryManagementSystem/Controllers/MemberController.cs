@@ -98,9 +98,56 @@ public class MemberController
     }
 
     private static void ViewAllMembers()
-    {
+{
+    List<Member> members = new List<Member>();
 
+    try
+    {
+        members = RetrieveAndDisplayMembers();
+
+        if (members.Count == 0)
+        {
+            ShowMenu();
+            return;
+        }
     }
+    catch (Exception ex)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write("An error occurred while retrieving the list of members: ");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine(ex.Message);
+        Console.ResetColor();
+    }
+    finally
+    {
+        ShowMenu();
+    }
+}
+
+private static List<Member> RetrieveAndDisplayMembers()
+{
+    var members = _memberService.GetAllMembers();
+
+    if (members.Count == 0)
+    {
+        Console.WriteLine("No members available.");
+        return members;
+    }
+
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("\nList of Members:");
+    Console.ResetColor();
+
+    for (int i = 0; i < members.Count; i++)
+    {
+        var member = members[i];
+        Console.Write($"{i + 1}. ");
+        member.PrintMemberDetails();
+    }
+
+    return members;
+}
 
     private static void DisplayTotalMembersCount()
     {

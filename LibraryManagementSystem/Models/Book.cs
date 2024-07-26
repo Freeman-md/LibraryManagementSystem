@@ -57,26 +57,19 @@ namespace LibraryManagementSystem.Models
 
         public void PrintBookDetails()
         {
-            PrintColoredText("Title: ", ConsoleColor.Green);
-            PrintColoredText($"{Title}, ", ConsoleColor.White);
-            PrintColoredText("Author: ", ConsoleColor.Green);
-            PrintColoredText($"{Author}, ", ConsoleColor.White);
-            PrintColoredText("Genre: ", ConsoleColor.Green);
-            PrintColoredText($"{Genre}, ", ConsoleColor.White);
-            PrintColoredText("ISBN: ", ConsoleColor.Green);
-            PrintColoredText($"{ISBN}, ", ConsoleColor.White);
-            PrintColoredText("Published: ", ConsoleColor.Green);
-            PrintColoredText($"{PublishDate.ToShortDateString()}, ", ConsoleColor.White);
-            PrintColoredText("Available: ", ConsoleColor.Green);
-            PrintColoredText($"{IsAvailable}", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("Title: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{Title}, ", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("Author: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{Author}, ", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("Genre: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{Genre}, ", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("ISBN: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{ISBN}, ", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("Published: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{PublishDate.ToShortDateString()}, ", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("Available: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{IsAvailable}", ConsoleColor.White);
             Console.WriteLine();
-        }
-
-        private void PrintColoredText(string text, ConsoleColor color)
-        {
-            Console.ForegroundColor = color;
-            Console.Write(text);
-            Console.ResetColor();
         }
     }
 }

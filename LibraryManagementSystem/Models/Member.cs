@@ -2,8 +2,8 @@
 
 namespace LibraryManagementSystem.Models
 {
-	public class Member
-	{
+    public class Member
+    {
         public Guid Id { get; private set; }
         public string Name { get; set; }
         public string Email { get; set; }
@@ -11,18 +11,9 @@ namespace LibraryManagementSystem.Models
         public string Address { get; set; }
         public DateTime MembershipDate { get; private set; }
 
-        public List<Transaction> BorrowedBooks
-        {
-            get
-            {
-                // TODO: get member borrowed books by MemberID on transactions
-                return new List<Transaction>();
-            }
-        }
-
         [JsonConstructor]
         public Member(Guid id, string name, string email, string phoneNumber, string address)
-		{
+        {
             Id = id == Guid.Empty ? Guid.NewGuid() : id;
             Name = name;
             Email = email;
@@ -47,6 +38,20 @@ namespace LibraryManagementSystem.Models
         public override int GetHashCode()
         {
             return Id.GetHashCode();
+        }
+
+
+        public void PrintMemberDetails()
+        {
+            ConsoleHelper.PrintColoredText("Name: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{Name}, ", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("Email: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{Email}, ", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("Phone Number: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{PhoneNumber}, ", ConsoleColor.White);
+            ConsoleHelper.PrintColoredText("Address: ", ConsoleColor.Green);
+            ConsoleHelper.PrintColoredText($"{Address}", ConsoleColor.White);
+            Console.WriteLine();
         }
     }
 }
