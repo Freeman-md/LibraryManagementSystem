@@ -45,12 +45,38 @@ namespace LibraryManagementSystem.Models
             return Id.GetHashCode();
         }
 
-        public void MarkAsBorrowed() {
+        public void MarkAsBorrowed()
+        {
             this.IsAvailable = false;
         }
 
-        public void MarkAsReturned() {
+        public void MarkAsReturned()
+        {
             this.IsAvailable = true;
+        }
+
+        public void PrintBookDetails()
+        {
+            PrintColoredText("Title: ", ConsoleColor.Green);
+            PrintColoredText($"{Title}, ", ConsoleColor.White);
+            PrintColoredText("Author: ", ConsoleColor.Green);
+            PrintColoredText($"{Author}, ", ConsoleColor.White);
+            PrintColoredText("Genre: ", ConsoleColor.Green);
+            PrintColoredText($"{Genre}, ", ConsoleColor.White);
+            PrintColoredText("ISBN: ", ConsoleColor.Green);
+            PrintColoredText($"{ISBN}, ", ConsoleColor.White);
+            PrintColoredText("Published: ", ConsoleColor.Green);
+            PrintColoredText($"{PublishDate.ToShortDateString()}, ", ConsoleColor.White);
+            PrintColoredText("Available: ", ConsoleColor.Green);
+            PrintColoredText($"{IsAvailable}", ConsoleColor.White);
+            Console.WriteLine();
+        }
+
+        private void PrintColoredText(string text, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(text);
+            Console.ResetColor();
         }
     }
 }

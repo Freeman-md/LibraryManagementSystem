@@ -97,8 +97,42 @@ public class BookController
 
     private static void ViewAllBooks()
     {
+        try
+        {
+            var books = _bookService.GetAllBooks();
 
+            if (books.Count == 0)
+            {
+                Console.WriteLine("No books available.");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("\nList of Books:");
+                Console.ResetColor();
+
+                for (int i = 0; i < books.Count; i++)
+                {
+                    var book = books[i];
+                    Console.Write($"{i + 1}. ");
+                    book.PrintBookDetails();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("An error occurred while retrieving the list of books: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(ex.Message);
+            Console.ResetColor();
+        }
+        finally
+        {
+            ShowMenu();
+        }
     }
+
 
     private static void DisplayTotalBooksCount()
     {
