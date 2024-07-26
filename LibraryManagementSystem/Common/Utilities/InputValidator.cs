@@ -2,21 +2,22 @@
 
 public static class InputValidator
 {
-    public static string GetValidInput(string prompt, string errorMessage)
+    public static string GetValidInput(string prompt, string errorMessage, string defaultValue = "")
     {
-        string? input;
+        Console.Write(prompt);
+        string? input = Console.ReadLine();
 
-        do
+        if (string.IsNullOrWhiteSpace(input))
         {
-            Console.Write(prompt);
-            input = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(input))
+            if (!string.IsNullOrWhiteSpace(defaultValue))
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(errorMessage);
-                Console.ResetColor();
+                return defaultValue;
             }
-        } while (string.IsNullOrWhiteSpace(input));
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(errorMessage);
+            Console.ResetColor();
+            return GetValidInput(prompt, errorMessage, defaultValue);
+        }
 
         return input;
     }

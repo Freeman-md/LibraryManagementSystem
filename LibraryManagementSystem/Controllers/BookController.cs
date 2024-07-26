@@ -87,8 +87,56 @@ public class BookController
 
     private static void EditBook()
     {
+        List<Book> books = new List<Book>();
 
+        try
+        {
+            books = RetrieveAndDisplayBooks();
+
+            if (books.Count == 0)
+            {
+                ShowMenu();
+                return;
+            }
+
+            Console.WriteLine("\nEnter the number of the book you want to edit:");
+            if (!int.TryParse(Console.ReadLine(), out int bookNumber) || bookNumber < 1 || bookNumber > _bookService.GetAllBooks().Count)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid book number.");
+                Console.ResetColor();
+                ShowMenu();
+                return;
+            }
+
+            var bookToEdit = _bookService.GetAllBooks()[bookNumber - 1];
+
+            string title = InputValidator.GetValidInput($"Enter new Book Title (current: {bookToEdit.Title}) or press Enter to keep current: ", "Title cannot be empty.", bookToEdit.Title);
+            string author = InputValidator.GetValidInput($"Enter new Book Author (current: {bookToEdit.Author}) or press Enter to keep current: ", "Author cannot be empty.", bookToEdit.Author);
+            string genre = InputValidator.GetValidInput($"Enter new Book Genre (current: {bookToEdit.Genre}) or press Enter to keep current: ", "Genre cannot be empty.", bookToEdit.Genre);
+            string isbn = InputValidator.GetValidInput($"Enter new Book ISBN (current: {bookToEdit.ISBN}) or press Enter to keep current: ", "ISBN cannot be empty.", bookToEdit.ISBN);
+
+            var updatedBook = new Book(bookToEdit.Id, title, author, genre, isbn, bookToEdit.PublishDate, bookToEdit.IsAvailable);
+            _bookService.UpdateBook(updatedBook, bookToEdit.Id);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Book edited successfully.");
+            Console.ResetColor();
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("An error occurred while editing the book: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(ex.Message);
+            Console.ResetColor();
+        }
+        finally
+        {
+            ShowMenu();
+        }
     }
+
 
     private static void DeleteBook()
     {
@@ -99,25 +147,7 @@ public class BookController
     {
         try
         {
-            var books = _bookService.GetAllBooks();
-
-            if (books.Count == 0)
-            {
-                Console.WriteLine("No books available.");
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("\nList of Books:");
-                Console.ResetColor();
-
-                for (int i = 0; i < books.Count; i++)
-                {
-                    var book = books[i];
-                    Console.Write($"{i + 1}. ");
-                    book.PrintBookDetails();
-                }
-            }
+            RetrieveAndDisplayBooks();
         }
         catch (Exception ex)
         {
@@ -131,6 +161,31 @@ public class BookController
         {
             ShowMenu();
         }
+    }
+
+
+    private static List<Book> RetrieveAndDisplayBooks()
+    {
+        var books = _bookService.GetAllBooks();
+
+        if (books.Count == 0)
+        {
+            Console.WriteLine("No books available.");
+            return books;
+        }
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("\nList of Books:");
+        Console.ResetColor();
+
+        for (int i = 0; i < books.Count; i++)
+        {
+            var book = books[i];
+            Console.Write($"{i + 1}. ");
+            book.PrintBookDetails();
+        }
+
+        return books;
     }
 
 
