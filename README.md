@@ -30,6 +30,16 @@ Features
 -   **Return Book**: Process the return of borrowed books and calculate any overdue fines.
 -   **View All Borrowed Books**: Display a list of all books currently borrowed.
 
+
+Tools and Technologies
+--------
+- **C#**: Core programming language used for development.
+- **xUnit**: Framework used for unit testing.
+- **MVC Pattern**: Ensures separation of concerns within the application.
+- **Repository Pattern**: Facilitates data access logic separation.
+- **File System**: Used for data persistence.
+- **GitHub Actions**: Implemented for Continuous Integration/Continuous Deployment (CI/CD).
+
 ### Preview of Using the App via Console 
 - Click the image to watch the video
 
